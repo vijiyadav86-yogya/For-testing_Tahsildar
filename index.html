@@ -3,23 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</title>
+  <title>Tahsildar Office, Peddavaduguru</title>
+  <!-- App Icon / Favicon -->
+  <link rel="icon" type="image/svg+xml" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
+  <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-100 min-h-screen p-3 text-slate-800">
 
-  <div id="mainApp" class="max-w-md mx-auto space-y-4">
+  <!-- Password Lock Screen Overlay -->
+  <div id="lockScreen" class="fixed inset-0 bg-indigo-900/95 z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center space-y-4 border-t-4 border-amber-500">
+      <div class="w-16 h-16 bg-indigo-100 text-indigo-800 rounded-full flex items-center justify-center mx-auto shadow-inner text-2xl">
+        <i class="fas fa-shield-alt text-amber-500"></i>
+      </div>
+      <div>
+        <h2 class="text-base font-bold text-slate-800">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h2>
+        <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ నమోదు చేయండి</p>
+      </div>
+      <div>
+        <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-indigo-600 font-bold mx-auto block bg-slate-50">
+        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (మళ్లీ ప్రయత్నించండి)</p>
+      </div>
+      <button type="button" onclick="checkPassword()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+        లాగిన్ అవ్వండి <i class="fas fa-arrow-right ml-1"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="mainApp" class="max-w-md mx-auto space-y-4 hidden">
     
     <!-- Header -->
     <div class="bg-indigo-800 text-white p-5 rounded-2xl shadow border-b-4 border-amber-500 flex justify-between items-center">
-      <div class="flex items-center gap-2">
-        <i class="fas fa-landmark text-2xl text-amber-400"></i>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-amber-400 text-indigo-900 rounded-xl flex items-center justify-center shadow">
+          <i class="fas fa-landmark text-lg"></i>
+        </div>
         <div>
           <h1 class="text-base font-bold">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h1>
-          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్ (మండల కోడ్: 1217)</p>
+          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్</p>
         </div>
       </div>
+      <button type="button" onclick="lockApp()" class="text-indigo-200 hover:text-white text-xs bg-indigo-900/50 px-2.5 py-1.5 rounded-lg border border-indigo-700 flex items-center gap-1" title="లాక్ చేయి">
+        <i class="fas fa-lock"></i> లాక్
+      </button>
     </div>
 
     <!-- Entry Form -->
@@ -120,58 +148,55 @@
     </div>
 
     <!-- Records Dashboard -->
-    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 space-y-3">
-      <div class="flex justify-between items-center">
+    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200">
+      <div class="flex justify-between items-center mb-3">
         <h2 class="text-sm font-bold text-slate-700">ట్రాకింగ్ రికార్డులు</h2>
         <span id="pendingCount" class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold">0 Pending</span>
       </div>
-
-      <!-- Search & Filter Bar -->
-      <div class="space-y-2">
-        <div class="relative">
-          <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
-          <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="పేరు, నంబర్ లేదా ఫైల్ పేరుతో వెతకండి..." class="w-full pl-8 pr-3 py-2 border rounded-xl text-xs outline-none focus:border-indigo-600 bg-slate-50">
-        </div>
-        <div class="flex gap-1.5 overflow-x-auto pb-1">
-          <button type="button" onclick="setFilter('ALL')" id="filterBtn_ALL" class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm">అన్నీ</button>
-          <button type="button" onclick="setFilter('PENDING')" id="filterBtn_PENDING" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700">పెండింగ్</button>
-          <button type="button" onclick="setFilter('RETURNED')" id="filterBtn_RETURNED" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700">రిటర్న్</button>
-        </div>
-      </div>
-
-      <div id="recordList" class="space-y-3 pt-1"></div>
-
-      <!-- Backup & Restore Actions -->
-      <div class="pt-3 border-t flex justify-between gap-2">
-        <button type="button" onclick="exportData()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-xl border border-slate-300 flex items-center justify-center gap-1">
-          <i class="fas fa-download"></i> బ్యాకప్ (Export)
-        </button>
-        <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-xl border border-slate-300 flex items-center justify-center gap-1 cursor-pointer">
-          <i class="fas fa-upload"></i> రిస్టోర్ (Import)
-          <input type="file" accept=".json" onchange="importData(this)" class="hidden">
-        </label>
-      </div>
+      <div id="recordList" class="space-y-3"></div>
     </div>
 
   </div>
 
   <script>
     var pickedFile = null;
-    var currentFilter = 'ALL';
 
-    function setFilter(status) {
-      currentFilter = status;
-      ['ALL', 'PENDING', 'RETURNED'].forEach(function(s) {
-        var btn = document.getElementById('filterBtn_' + s);
-        if (s === status) {
-          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm';
-        } else {
-          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700';
-        }
-      });
-      renderDashboard();
+    // Password verification logic
+    function checkPassword() {
+      var val = document.getElementById('passInput').value;
+      if (val === '1234') {
+        document.getElementById('lockScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        sessionStorage.setItem('isUnlocked', 'true');
+      } else {
+        var err = document.getElementById('passError');
+        err.classList.remove('hidden');
+        document.getElementById('passInput').value = '';
+        setTimeout(function() { err.classList.add('hidden'); }, 2000);
+      }
     }
 
+    function lockApp() {
+      sessionStorage.removeItem('isUnlocked');
+      document.getElementById('passInput').value = '';
+      document.getElementById('mainApp').classList.add('hidden');
+      document.getElementById('lockScreen').classList.remove('hidden');
+    }
+
+    // Check if already unlocked in this session
+    window.addEventListener('DOMContentLoaded', function() {
+      if (sessionStorage.getItem('isUnlocked') === 'true') {
+        document.getElementById('lockScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+      }
+    });
+
+    // Allow Enter key on password input
+    document.getElementById('passInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    // Contact Picker with fallback check
     async function pickContact() {
       if ('contacts' in navigator && 'select' in navigator.contacts) {
         try {
@@ -214,6 +239,7 @@
       document.getElementById('fileBadge').classList.add('hidden');
     }
 
+    // Convert YYYY-MM-DD to DD/MM/YYYY
     function formatToIndianDate(isoStr) {
       if (!isoStr) return "";
       var p = isoStr.split('-');
@@ -223,6 +249,7 @@
       return isoStr;
     }
 
+    // Set Due Date by Days selection
     function onDaysChange() {
       var days = parseInt(document.getElementById('daysSelect').value, 10) || 3;
       var d = new Date();
@@ -236,6 +263,7 @@
       updateNoticeText();
     }
 
+    // When user manually picks a date from calendar
     function onCustomDateChange() {
       updateNoticeText();
     }
@@ -388,61 +416,20 @@
       }
     }
 
-    function exportData() {
-      var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(getEntries()));
-      var dlAnchorElem = document.createElement('a');
-      dlAnchorElem.setAttribute("href", dataStr);
-      dlAnchorElem.setAttribute("download", "Tahsildar_Peddavaduguru_Backup.json");
-      dlAnchorElem.click();
-    }
-
-    function importData(input) {
-      var file = input.files[0];
-      if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          var parsed = JSON.parse(e.target.result);
-          if (Array.isArray(parsed)) {
-            saveEntries(parsed);
-            alert('రికార్డులు విజయవంతంగా లోడ్ చేయబడ్డాయి!');
-          } else {
-            alert('తప్పు ఫైల్ ఫార్మాట్!');
-          }
-        } catch (err) {
-          alert('ఫైల్ చదవడం విఫలమైంది.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
     function renderDashboard() {
       var list = getEntries();
       var container = document.getElementById('recordList');
       if (!container) return;
 
-      var searchVal = (document.getElementById('searchInput').value || '').toLowerCase();
-
-      // Filter by Status and Search query
-      var filtered = list.filter(function(item) {
-        var matchesStatus = (currentFilter === 'ALL' || item.status === currentFilter);
-        var matchesSearch = !searchVal || 
-          item.name.toLowerCase().includes(searchVal) || 
-          item.phone.includes(searchVal) || 
-          item.docName.toLowerCase().includes(searchVal) || 
-          item.category.toLowerCase().includes(searchVal);
-        return matchesStatus && matchesSearch;
-      });
-
       var pendingCount = list.filter(function(item) { return item.status === 'PENDING'; }).length;
-      document.getElementById('pendingCount').innerText = pendingCount + ' పెండింగ్';
+      document.getElementById('pendingCount').innerText = pendingCount + ' Pending';
 
-      if (filtered.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">తగిన రికార్డులు ఏవీ కనుగొనబడలేదు.</p>';
+      if (list.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">ఇంకా ఎలాంటి రికార్డులు లేవు.</p>';
         return;
       }
 
-      container.innerHTML = filtered.map(function(item) {
+      container.innerHTML = list.map(function(item) {
         return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs">' +
             '<div class="flex justify-between items-start">' +
               '<div>' +
@@ -474,6 +461,7 @@
       }).join('');
     }
 
+    // Direct initialization
     onDaysChange();
     renderDashboard();
   </script>
