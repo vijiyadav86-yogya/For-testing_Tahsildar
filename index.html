@@ -3,171 +3,138 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tahsildar Office, Peddavaduguru</title>
+  <title>Press Conference on Revenue Clinic and PGRS Reports</title>
   <!-- App Icon / Favicon -->
   <link rel="icon" type="image/svg+xml" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
   <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-100 min-h-screen p-3 text-slate-800">
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col justify-between">
 
   <!-- Password Lock Screen Overlay -->
-  <div id="lockScreen" class="fixed inset-0 bg-indigo-900/95 z-50 flex items-center justify-center p-4">
-    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center space-y-4 border-t-4 border-amber-500">
-      <div class="w-16 h-16 bg-indigo-100 text-indigo-800 rounded-full flex items-center justify-center mx-auto shadow-inner text-2xl">
-        <i class="fas fa-shield-alt text-amber-500"></i>
+  <div id="lockScreen" class="fixed inset-0 bg-emerald-950/95 z-50 flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 text-center space-y-4 border-t-4 border-emerald-700">
+      <div class="w-16 h-16 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto shadow-inner text-2xl">
+        <i class="fas fa-shield-alt text-emerald-700"></i>
       </div>
       <div>
-        <h2 class="text-base font-bold text-slate-800">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h2>
+        <h2 class="text-base font-bold text-slate-800">District Administration, Ananthapuramu</h2>
         <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ నమోదు చేయండి</p>
       </div>
       <div>
-        <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-indigo-600 font-bold mx-auto block bg-slate-50">
+        <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-emerald-700 font-bold mx-auto block bg-slate-50">
         <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (మళ్లీ ప్రయత్నించండి)</p>
       </div>
-      <button type="button" onclick="checkPassword()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
+      <button type="button" onclick="checkPassword()" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
         లాగిన్ అవ్వండి <i class="fas fa-arrow-right ml-1"></i>
       </button>
     </div>
   </div>
 
-  <div id="mainApp" class="max-w-md mx-auto space-y-4 hidden">
-    
+  <div id="mainApp" class="w-full flex-1 flex flex-col hidden">
     <!-- Header -->
-    <div class="bg-indigo-800 text-white p-5 rounded-2xl shadow border-b-4 border-amber-500 flex justify-between items-center">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 bg-amber-400 text-indigo-900 rounded-xl flex items-center justify-center shadow">
-          <i class="fas fa-landmark text-lg"></i>
+    <header class="bg-[#1b4d3e] text-white shadow-md border-b-4 border-amber-500">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white text-[#1b4d3e] rounded-full flex items-center justify-center shadow font-bold">
+            <i class="fas fa-landmark text-lg"></i>
+          </div>
+          <div>
+            <h1 class="text-base sm:text-lg font-bold tracking-wide">Press Conference on Revenue Clinic and PGRS Reports</h1>
+            <p class="text-emerald-200 text-xs">District Administration, Ananthapuramu</p>
+          </div>
         </div>
-        <div>
-          <h1 class="text-base font-bold">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h1>
-          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్</p>
-        </div>
+        <button type="button" onclick="lockApp()" class="text-emerald-100 hover:text-white text-xs bg-emerald-900/60 px-3 py-1.5 rounded-lg border border-emerald-700 flex items-center gap-1.5">
+          <i class="fas fa-lock"></i> లాక్
+        </button>
       </div>
-      <button type="button" onclick="lockApp()" class="text-indigo-200 hover:text-white text-xs bg-indigo-900/50 px-2.5 py-1.5 rounded-lg border border-indigo-700 flex items-center gap-1" title="లాక్ చేయి">
-        <i class="fas fa-lock"></i> లాక్
-      </button>
-    </div>
+    </header>
 
-    <!-- Entry Form -->
-    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 space-y-3">
-      <div class="flex justify-between items-center">
-        <h2 class="text-sm font-bold text-slate-700">కొత్త ఎంట్రీ & నోటీస్</h2>
-        <button type="button" onclick="pickContact()" class="bg-indigo-50 hover:bg-indigo-100 active:bg-indigo-200 text-indigo-700 border border-indigo-200 text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-sm">
-          <i class="fas fa-address-book text-indigo-600"></i> కాంటాక్ట్ ఎంచుకో
+    <!-- Main Container -->
+    <main class="max-w-4xl w-full mx-auto p-4 sm:p-6 flex-1 space-y-4">
+      
+      <!-- Navigation Tabs -->
+      <div class="flex border-b border-slate-300 space-x-6 text-sm font-bold">
+        <button onclick="switchTab('form')" id="tabFormBtn" class="py-2.5 border-b-2 border-[#1b4d3e] text-[#1b4d3e] flex items-center gap-2">
+          <i class="fas fa-pen-to-square"></i> Form Submit
+        </button>
+        <button onclick="switchTab('dashboard')" id="tabDashBtn" class="py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2">
+          <i class="fas fa-table-list"></i> Report Dashboard <span id="dashCount" class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded-full">0</span>
         </button>
       </div>
 
-      <!-- Category Dropdown -->
-      <div class="bg-amber-50/80 p-3 rounded-xl border-2 border-amber-300">
-        <label class="block text-xs font-bold text-amber-900 mb-1 flex items-center gap-1.5">
-          <i class="fas fa-list-check text-amber-600"></i> విభాగం ఎంచుకోండి (Category) <span class="text-red-500">*</span>
-        </label>
-        <select id="categorySelect" onchange="updateNoticeText()" class="w-full border-2 border-amber-300 rounded-xl p-2.5 text-xs font-bold text-slate-800 bg-white outline-none focus:border-indigo-600">
-          <option value="" selected>-- ఎంచుకోండి (Select Category) --</option>
-          <option value="Mutations">1. Mutations (మ్యుటేషన్స్)</option>
-          <option value="PGRS">2. PGRS (ప్రజా సమస్యల పరిష్కార వేదిక)</option>
-          <option value="Mandala arjilu">3. Mandala arjilu (మండల అర్జీలు)</option>
-          <option value="Others">4. Others (ఇతరములు)</option>
-        </select>
-      </div>
-      
-      <div>
-        <label class="block text-xs font-semibold mb-1 text-slate-600">గ్రహీత పేరు (VRO / Person) <span class="text-red-500">*</span></label>
-        <input type="text" id="name" oninput="updateNoticeText()" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-indigo-600" placeholder="ఉదా: రాజేష్">
+      <!-- Tab 1: Form Submit -->
+      <div id="formTabContent" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-5">
+        <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+          
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Name of the Mandal <span class="text-red-500">*</span></label>
+            <select id="mandalSelect" required class="w-full border border-slate-300 rounded-xl p-3 text-xs sm:text-sm bg-white outline-none focus:border-[#1b4d3e]">
+              <option value="Peddavadugur" selected>Peddavadugur</option>
+              <option value="Ananthapuramu">Ananthapuramu</option>
+              <option value="Tadipatri">Tadipatri</option>
+              <option value="Gooty">Gooty</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Date of Press conference on Revenue clinic and PGRS Reports <span class="text-red-500">*</span></label>
+            <input type="text" id="pressDate" value="11th working day of the month" readonly class="w-full border border-slate-300 bg-slate-50 rounded-xl p-3 text-xs sm:text-sm text-slate-600 outline-none">
+            <p class="text-[11px] text-slate-400 mt-1">Auto-filled directly from the Master sheet (Column B).</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Venue</label>
+            <input type="text" id="venue" value="Respective Tahsildar office" readonly class="w-full border border-slate-300 bg-slate-50 rounded-xl p-3 text-xs sm:text-sm text-slate-600 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Press conference Conducted <span class="text-red-500">*</span></label>
+            <div class="flex items-center gap-6 pt-2">
+              <label class="flex items-center gap-2 cursor-pointer font-medium text-sm">
+                <input type="radio" name="conducted" value="Yes" required class="w-4 h-4 text-[#1b4d3e] focus:ring-[#1b4d3e]"> Yes
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer font-medium text-sm">
+                <input type="radio" name="conducted" value="No" required class="w-4 h-4 text-[#1b4d3e] focus:ring-[#1b4d3e]"> No
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full bg-[#1b4d3e] hover:bg-[#143a2e] text-white font-bold py-3.5 rounded-xl text-sm shadow transition mt-4">
+            Save Response
+          </button>
+        </form>
       </div>
 
-      <!-- Phone Number with +91 Prefix -->
-      <div>
-        <label class="block text-xs font-semibold mb-1 text-slate-600">WhatsApp నంబర్ <span class="text-red-500">*</span></label>
-        <div class="flex items-center border rounded-xl overflow-hidden focus-within:border-indigo-600 bg-white">
-          <span class="bg-slate-100 text-slate-700 font-bold px-3 py-2.5 text-sm border-r select-none">+91</span>
-          <input type="tel" id="phone" maxlength="10" class="w-full p-2.5 text-sm outline-none" placeholder="9876543210">
+      <!-- Tab 2: Report Dashboard -->
+      <div id="dashTabContent" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hidden space-y-4">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h2 class="text-sm font-bold text-slate-700">Submitted Reports Overview</h2>
+          <button type="button" onclick="clearReports()" class="text-xs text-red-600 hover:underline font-bold">సలినా రికార్డులను తొలగించు</button>
+        </div>
+        <div id="reportsList" class="space-y-3">
+          <!-- Dynamic records will load here -->
         </div>
       </div>
 
-      <div>
-        <label class="block text-xs font-semibold mb-1 text-slate-600">డాక్యుమెంట్ / రిఫరెన్స్ నంబర్ <span class="text-red-500">*</span></label>
-        <input type="text" id="docName" oninput="updateNoticeText()" class="w-full border rounded-xl p-2.5 text-sm outline-none focus:border-indigo-600" placeholder="ఉదా: F-8 నంబర్ / అర్జీ వివరాలు">
-      </div>
+    </main>
 
-      <!-- Camera & PDF Attachment Section -->
-      <div class="bg-indigo-50/90 p-3 rounded-xl border border-indigo-200 space-y-2">
-        <label class="block text-xs font-bold text-indigo-900">
-          📸 డాక్యుమెంట్ ఫోటో లేదా PDF జతచేయండి:
-        </label>
-        <div class="grid grid-cols-2 gap-2">
-          <label class="cursor-pointer bg-emerald-600 active:bg-emerald-700 text-white p-2.5 rounded-xl text-center flex flex-col items-center justify-center gap-1 shadow">
-            <i class="fas fa-camera text-lg"></i>
-            <span class="text-xs font-bold">కెమెరా ఓపెన్ చేయి</span>
-            <input type="file" id="cameraInput" accept="image/*" capture="environment" onchange="fileChosen(this)" class="hidden">
-          </label>
-          <label class="cursor-pointer bg-indigo-700 active:bg-indigo-800 text-white p-2.5 rounded-xl text-center flex flex-col items-center justify-center gap-1 shadow">
-            <i class="fas fa-file-pdf text-lg"></i>
-            <span class="text-xs font-bold">PDF / ఫైల్స్</span>
-            <input type="file" id="fileInput" accept="application/pdf,image/*" onchange="fileChosen(this)" class="hidden">
-          </label>
-        </div>
-        <div id="fileBadge" class="hidden bg-emerald-100 border border-emerald-300 text-emerald-900 text-xs p-2 rounded-xl font-bold flex items-center justify-between">
-          <span id="fileBadgeText" class="truncate max-w-[220px]"></span>
-          <button type="button" onclick="removeFile()" class="text-red-600 font-extrabold ml-2">✕ తీసివేయి</button>
-        </div>
-      </div>
-
-      <!-- Due Date Selection Section -->
-      <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1">గడువు రోజులు మార్చు</label>
-          <select id="daysSelect" onchange="onDaysChange()" class="w-full border rounded-lg p-2 text-xs bg-white font-bold outline-none border-indigo-200 focus:border-indigo-600">
-            <option value="1">1 రోజు</option>
-            <option value="2">2 రోజులు</option>
-            <option value="3" selected>3 రోజులు</option>
-            <option value="5">5 రోజులు</option>
-            <option value="7">7 రోజులు</option>
-            <option value="10">10 రోజులు</option>
-            <option value="15">15 రోజులు</option>
-            <option value="30">30 రోజులు</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1">గడువు తేదీ (Due Date)</label>
-          <input type="date" id="datePickerInput" onchange="onCustomDateChange()" class="w-full border rounded-lg p-1.5 text-xs bg-white font-bold outline-none border-indigo-200 focus:border-indigo-600 text-slate-700">
-        </div>
-      </div>
-
-      <!-- Message Preview Box -->
-      <div>
-        <label class="block text-xs font-semibold mb-1 text-slate-600">అధికారిక నోటీస్ మెసేజ్ ప్రివ్యూ:</label>
-        <textarea id="customMsg" rows="6" class="w-full border rounded-xl p-2.5 text-xs font-sans text-slate-700 bg-slate-50 leading-relaxed outline-none" readonly></textarea>
-      </div>
-
-      <button type="button" onclick="sendWhatsAppNotice()" class="w-full bg-emerald-600 active:bg-emerald-700 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm shadow flex items-center justify-center gap-2">
-        <i class="fab fa-whatsapp text-xl"></i> వాట్సాప్‌లో అధికారిక నోటీస్ పంపు
-      </button>
-    </div>
-
-    <!-- Records Dashboard -->
-    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200">
-      <div class="flex justify-between items-center mb-3">
-        <h2 class="text-sm font-bold text-slate-700">ట్రాకింగ్ రికార్డులు</h2>
-        <span id="pendingCount" class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold">0 Pending</span>
-      </div>
-      <div id="recordList" class="space-y-3"></div>
-    </div>
-
+    <!-- Footer -->
+    <footer class="text-center py-4 text-xs text-slate-500 border-t bg-white mt-6">
+      District Administration, Ananthapuramu &copy; 2026
+    </footer>
   </div>
 
   <script>
-    var pickedFile = null;
-
-    // Password verification logic
+    // Password check logic
     function checkPassword() {
       var val = document.getElementById('passInput').value;
       if (val === '1234') {
         document.getElementById('lockScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
-        sessionStorage.setItem('isUnlocked', 'true');
+        sessionStorage.setItem('press_unlocked', 'true');
+        renderDashboard();
       } else {
         var err = document.getElementById('passError');
         err.classList.remove('hidden');
@@ -177,293 +144,115 @@
     }
 
     function lockApp() {
-      sessionStorage.removeItem('isUnlocked');
+      sessionStorage.removeItem('press_unlocked');
       document.getElementById('passInput').value = '';
       document.getElementById('mainApp').classList.add('hidden');
       document.getElementById('lockScreen').classList.remove('hidden');
     }
 
-    // Check if already unlocked in this session
     window.addEventListener('DOMContentLoaded', function() {
-      if (sessionStorage.getItem('isUnlocked') === 'true') {
+      if (sessionStorage.getItem('press_unlocked') === 'true') {
         document.getElementById('lockScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
+        renderDashboard();
       }
     });
 
-    // Allow Enter key on password input
     document.getElementById('passInput').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') checkPassword();
     });
 
-    // Contact Picker with fallback check
-    async function pickContact() {
-      if ('contacts' in navigator && 'select' in navigator.contacts) {
-        try {
-          var res = await navigator.contacts.select(['name', 'tel'], { multiple: false });
-          if (res && res.length > 0) {
-            var person = res[0];
-            if (person.name && person.name.length > 0) {
-              document.getElementById('name').value = person.name[0];
-            }
-            if (person.tel && person.tel.length > 0) {
-              var num = person.tel[0].replace(/[^0-9]/g, '');
-              if (num.length > 10) num = num.slice(-10);
-              document.getElementById('phone').value = num;
-            }
-            updateNoticeText();
-          }
-        } catch (err) {
-          console.warn("Contacts API cancelled:", err);
-        }
+    // Tabs switching
+    function switchTab(tab) {
+      var formBtn = document.getElementById('tabFormBtn');
+      var dashBtn = document.getElementById('tabDashBtn');
+      var formContent = document.getElementById('formTabContent');
+      var dashContent = document.getElementById('dashTabContent');
+
+      if (tab === 'form') {
+        formBtn.className = "py-2.5 border-b-2 border-[#1b4d3e] text-[#1b4d3e] flex items-center gap-2";
+        dashBtn.className = "py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2";
+        formContent.classList.remove('hidden');
+        dashContent.classList.add('hidden');
       } else {
-        alert("మీ మొబైల్ బ్రౌజర్ డైరెక్ట్ కాంటాక్ట్ బుక్‌ని సపోర్ట్ చేయడం లేదు. దయచేసి నేరుగా పేరు, నంబర్ టైప్ చేయండి.");
+        dashBtn.className = "py-2.5 border-b-2 border-[#1b4d3e] text-[#1b4d3e] flex items-center gap-2";
+        formBtn.className = "py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 flex items-center gap-2";
+        dashContent.classList.remove('hidden');
+        formContent.classList.add('hidden');
+        renderDashboard();
       }
     }
 
-    function fileChosen(input) {
-      if (input.files && input.files[0]) {
-        pickedFile = input.files[0];
-        document.getElementById('fileBadge').classList.remove('hidden');
-        var isImg = pickedFile.type.startsWith('image/');
-        document.getElementById('fileBadgeText').innerText = isImg 
-          ? '📸 Photo: ' + (pickedFile.name || 'Doc') 
-          : '📄 PDF: ' + pickedFile.name;
-      }
-    }
-
-    function removeFile() {
-      pickedFile = null;
-      document.getElementById('cameraInput').value = '';
-      document.getElementById('fileInput').value = '';
-      document.getElementById('fileBadge').classList.add('hidden');
-    }
-
-    // Convert YYYY-MM-DD to DD/MM/YYYY
-    function formatToIndianDate(isoStr) {
-      if (!isoStr) return "";
-      var p = isoStr.split('-');
-      if (p.length === 3) {
-        return p[2] + '/' + p[1] + '/' + p[0];
-      }
-      return isoStr;
-    }
-
-    // Set Due Date by Days selection
-    function onDaysChange() {
-      var days = parseInt(document.getElementById('daysSelect').value, 10) || 3;
-      var d = new Date();
-      d.setDate(d.getDate() + days);
-
-      var yyyy = d.getFullYear();
-      var mm = String(d.getMonth() + 1).padStart(2, '0');
-      var dd = String(d.getDate()).padStart(2, '0');
-
-      document.getElementById('datePickerInput').value = yyyy + '-' + mm + '-' + dd;
-      updateNoticeText();
-    }
-
-    // When user manually picks a date from calendar
-    function onCustomDateChange() {
-      updateNoticeText();
-    }
-
-    function updateNoticeText() {
-      var category = document.getElementById('categorySelect').value;
-      var name = document.getElementById('name').value.trim() || '[గ్రహీత పేరు]';
-      var doc = document.getElementById('docName').value.trim() || '[రిఫరెన్స్ వివరాలు]';
-      var rawDate = document.getElementById('datePickerInput').value;
-      var dateFormatted = formatToIndianDate(rawDate);
-      var days = document.getElementById('daysSelect').value || '3';
-      var catText = category ? ' (' + category + ')' : '';
-
-      var text = '*తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు (Tahsildar Office, Peddavaduguru)*\n\n' +
-                 'నమస్కారం ' + name + ' గారు,\n\n' +
-                 'మీకు *' + doc + '* సంబంధించిన' + catText + ' ఫైల్ పరిశీలన నిమిత్తం పంపడమైనది.\n\n' +
-                 'దయచేసి దీనిని విచారించి *' + days + ' రోజుల్లోగా* ' + (dateFormatted ? '(చివరి తేదీ: *' + dateFormatted + '*) ' : '') + 'మీ నివేదికను (Report) కార్యాలయానికి సమర్పించగలరు.\n\n' +
-                 'ఇట్లు,\n*తహసీల్దార్ కార్యాలయం,*\n*పెద్దవడుగూరు.*';
-
-      document.getElementById('customMsg').value = text;
-    }
-
-    function getEntries() {
+    // Storage Management
+    function getReports() {
       try {
-        return JSON.parse(localStorage.getItem('f8_records') || '[]');
-      } catch (e) {
-        return [];
-      }
+        return JSON.parse(localStorage.getItem('press_reports') || '[]');
+      } catch(e) { return []; }
     }
 
-    function saveEntries(data) {
-      localStorage.setItem('f8_records', JSON.stringify(data));
-      renderDashboard();
-    }
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      var mandal = document.getElementById('mandalSelect').value;
+      var dateVal = document.getElementById('pressDate').value;
+      var venueVal = document.getElementById('venue').value;
+      var conductedVal = document.querySelector('input[name="conducted"]:checked').value;
 
-    function readFileAsDataURL(file) {
-      return new Promise(function(resolve, reject) {
-        var reader = new FileReader();
-        reader.onload = function() { resolve(reader.result); };
-        reader.onerror = function(error) { reject(error); };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    async function sendWhatsAppNotice() {
-      var category = document.getElementById('categorySelect').value;
-      var name = document.getElementById('name').value.trim();
-      var rawPhone = document.getElementById('phone').value.trim();
-      var doc = document.getElementById('docName').value.trim();
-      var rawDate = document.getElementById('datePickerInput').value;
-      var dueDateVal = formatToIndianDate(rawDate);
-      var msg = document.getElementById('customMsg').value;
-
-      if (!category) {
-        alert('దయచేసి విభాగం (Category) ఎంచుకోండి!');
-        return;
-      }
-      if (!name || !rawPhone || !doc || !dueDateVal) {
-        alert('దయచేసి అన్ని వివరాలను నమోదు చేయండి!');
-        return;
-      }
-
-      var cleanDigits = rawPhone.replace(/[^0-9]/g, '');
-      if (cleanDigits.length > 10) cleanDigits = cleanDigits.slice(-10);
-      if (cleanDigits.length !== 10) {
-        alert('దయచేసి సరైన 10 అంకెల మొబైల్ నంబర్ ఇవ్వండి!');
-        return;
-      }
-
-      var fileDataUrl = null;
-      var fileName = null;
-      var fileType = null;
-      if (pickedFile) {
-        fileName = pickedFile.name || 'Captured_Doc';
-        fileType = pickedFile.type.startsWith('image/') ? 'IMAGE' : 'PDF';
-        try {
-          fileDataUrl = await readFileAsDataURL(pickedFile);
-        } catch(e) {}
-      }
-
-      var today = new Date();
-      var sentDateFormatted = String(today.getDate()).padStart(2, '0') + '/' + String(today.getMonth() + 1).padStart(2, '0') + '/' + today.getFullYear();
+      var now = new Date();
+      var timeStr = now.toLocaleDateString() + ' ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
       var record = {
         id: Date.now(),
-        category: category,
-        name: name,
-        phone: cleanDigits,
-        docName: doc,
-        fileName: fileName,
-        fileData: fileDataUrl,
-        fileType: fileType,
-        sentDate: sentDateFormatted,
-        dueDate: dueDateVal,
-        daysAllowed: document.getElementById('daysSelect').value || '3',
-        status: 'PENDING'
+        mandal: mandal,
+        date: dateVal,
+        venue: venueVal,
+        conducted: conductedVal,
+        submittedAt: timeStr
       };
 
-      var list = getEntries();
+      var list = getReports();
       list.unshift(record);
-      saveEntries(list);
+      localStorage.setItem('press_reports', JSON.stringify(list));
 
-      document.getElementById('name').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('docName').value = '';
-      document.getElementById('categorySelect').value = '';
-      removeFile();
-      document.getElementById('daysSelect').value = '3';
-      onDaysChange();
-
-      if (pickedFile && navigator.canShare && navigator.canShare({ files: [pickedFile] })) {
-        try {
-          await navigator.share({ files: [pickedFile], title: category + ': ' + doc, text: msg });
-          return;
-        } catch (e) {}
-      }
-
-      window.location.href = 'https://api.whatsapp.com/send?phone=91' + cleanDigits + '&text=' + encodeURIComponent(msg);
+      alert('Response saved successfully!');
+      e.target.reset();
+      document.getElementById('mandalSelect').value = mandal; // retain default selection
+      switchTab('dashboard');
     }
 
-    function viewAttachment(id) {
-      var item = getEntries().find(function(r) { return r.id === id; });
-      if (item && item.fileData) {
-        var w = window.open();
-        if (item.fileType === 'IMAGE') {
-          w.document.write('<body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;"><img src="' + item.fileData + '" style="max-width:100%;max-height:100vh;"></body>');
-        } else {
-          w.document.write('<iframe src="' + item.fileData + '" frameborder="0" style="border:0;width:100%;height:100%;"></iframe>');
-        }
-      }
-    }
-
-    function markReturned(id) {
-      saveEntries(getEntries().map(function(item) {
-        return item.id === id ? Object.assign({}, item, { status: 'RETURNED' }) : item;
-      }));
-    }
-
-    function sendReminder(phone, name, docName, dueDateStr, category) {
-      var text = '*తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు (Tahsildar Office, Peddavaduguru)*\n\n' +
-                 '*అత్యవసర రిమైండర్:*\n' + name + ' గారు, మీకు ఇచ్చిన *' + docName + '* (' + (category || 'ఫైల్') + ') విచారణ గడువు తేదీ (*' + dueDateStr + '*) ముగిసినది.\n\n' +
-                 'దయచేసి వెంటనే విచారణ నివేదికను కార్యాలయానికి సమర్పించగలరు.\n\n' +
-                 'ఇట్లు,\n*తహసీల్దార్ కార్యాలయం,*\n*పెద్దవడుగూరు.*';
-      window.location.href = 'https://api.whatsapp.com/send?phone=91' + phone + '&text=' + encodeURIComponent(text);
-    }
-
-    function deleteRecord(id) {
-      if (confirm('ఈ రికార్డును తొలగించాలనుకుంటున్నారా?')) {
-        saveEntries(getEntries().filter(function(item) { return item.id !== id; }));
+    function clearReports() {
+      if (confirm('అన్ని రికార్డులను తొలగించాలనుకుంటున్నారా?')) {
+        localStorage.removeItem('press_reports');
+        renderDashboard();
       }
     }
 
     function renderDashboard() {
-      var list = getEntries();
-      var container = document.getElementById('recordList');
-      if (!container) return;
-
-      var pendingCount = list.filter(function(item) { return item.status === 'PENDING'; }).length;
-      document.getElementById('pendingCount').innerText = pendingCount + ' Pending';
+      var list = getReports();
+      var container = document.getElementById('reportsList');
+      document.getElementById('dashCount').innerText = list.length;
 
       if (list.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">ఇంకా ఎలాంటి రికార్డులు లేవు.</p>';
+        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-6">ఇంకా ఎలాంటి రికార్డులు సబ్మిట్ చేయబడలేదు.</p>';
         return;
       }
 
       container.innerHTML = list.map(function(item) {
-        return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs">' +
-            '<div class="flex justify-between items-start">' +
-              '<div>' +
-                '<div class="flex items-center gap-1.5">' +
-                  '<p class="font-bold text-sm text-slate-800">' + item.name + '</p>' +
-                  '<span class="bg-amber-100 text-amber-800 text-[10px] px-1.5 py-0.2 rounded font-bold">' + (item.category || 'Mutations') + '</span>' +
-                '</div>' +
-                '<p class="text-slate-500 font-mono text-[11px] mt-0.5">+91 ' + item.phone + '</p>' +
-                '<p class="text-indigo-700 font-semibold mt-0.5">' + item.docName + '</p>' +
-                (item.fileName ? ('<p class="text-slate-500 text-[10px] mt-0.5 flex items-center gap-1"><i class="fas ' + (item.fileType === 'IMAGE' ? 'fa-camera text-emerald-600' : 'fa-file-pdf text-red-500') + '"></i> ' + item.fileName + '</p>') : '') +
-              '</div>' +
-              '<div class="flex flex-col items-end gap-1">' +
-                (item.status === 'RETURNED' 
-                  ? '<span class="bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-bold text-[10px]">✓ రిపోర్ట్ వచ్చింది</span>' 
-                  : '<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold text-[10px]">పెండింగ్</span>') +
-                '<span class="text-[10px] text-slate-400 font-medium">గడువు: ' + item.daysAllowed + ' రోజులు</span>' +
-              '</div>' +
+        var isYes = item.conducted === 'Yes';
+        return '<div class="border border-slate-200 rounded-xl p-4 bg-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-xs">' +
+          '<div class="space-y-1">' +
+            '<div class="flex items-center gap-2">' +
+              '<span class="font-bold text-sm text-slate-800">' + item.mandal + ' Mandal</span>' +
+              '<span class="px-2 py-0.5 rounded font-bold ' + (isYes ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800') + '">Conducted: ' + item.conducted + '</span>' +
             '</div>' +
-            '<div class="flex justify-between text-slate-500 border-t pt-2 text-[11px]">' +
-              '<span>పంపినది: <b>' + item.sentDate + '</b></span>' +
-              '<span>చివరి తేదీ: <b>' + item.dueDate + '</b></span>' +
-            '</div>' +
-            '<div class="flex flex-wrap gap-1.5 pt-1 border-t">' +
-              (item.fileData ? ('<button onclick="viewAttachment(' + item.id + ')" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-bold px-2.5 py-1.5 rounded-lg text-center flex items-center gap-1"><i class="fas ' + (item.fileType === 'IMAGE' ? 'fa-image text-emerald-600' : 'fa-eye text-indigo-600') + '"></i> ' + (item.fileType === 'IMAGE' ? 'ఫోటో చూడు' : 'PDF చూడు') + '</button>') : '') +
-              (item.status === 'PENDING' ? ('<button onclick="sendReminder(\'' + item.phone + '\', \'' + item.name + '\', \'' + item.docName + '\', \'' + item.dueDate + '\', \'' + (item.category || 'Mutations') + '\')" class="flex-1 bg-amber-500 text-white font-bold py-1.5 rounded-lg text-center shadow-sm">🔔 రిమైండ్</button><button onclick="markReturned(' + item.id + ')" class="flex-1 bg-emerald-600 text-white font-bold py-1.5 rounded-lg text-center shadow-sm">✓ రిటర్న్</button>') : '<span class="flex-1 text-slate-400 py-1.5 text-center font-bold">పూర్తయింది</span>') +
-              '<button onclick="deleteRecord(' + item.id + ')" class="px-2.5 py-1.5 bg-slate-200 text-slate-600 rounded-lg hover:text-red-600"><i class="fas fa-trash"></i></button>' +
-            '</div>' +
-          '</div>';
+            '<p class="text-slate-600"><b>Date:</b> ' + item.date + '</p>' +
+            '<p class="text-slate-500"><b>Venue:</b> ' + item.venue + '</p>' +
+          '</div>' +
+          '<div class="text-right flex sm:flex-col justify-between w-full sm:w-auto items-end border-t sm:border-t-0 pt-2 sm:pt-0">' +
+            '<span class="text-[10px] text-slate-400">' + item.submittedAt + '</span>' +
+          '</div>' +
+        '</div>';
       }).join('');
     }
-
-    // Direct initialization
-    onDaysChange();
-    renderDashboard();
   </script>
 </body>
 </html>
