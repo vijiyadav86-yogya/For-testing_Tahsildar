@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tahsildar Office, Peddavaduguru</title>
+  <title>తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -17,7 +17,7 @@
         <i class="fas fa-landmark text-2xl text-amber-400"></i>
         <div>
           <h1 class="text-base font-bold">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h1>
-          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్</p>
+          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్ (మండల కోడ్: 1217)</p>
         </div>
       </div>
     </div>
@@ -120,20 +120,58 @@
     </div>
 
     <!-- Records Dashboard -->
-    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200">
-      <div class="flex justify-between items-center mb-3">
+    <div class="bg-white p-5 rounded-2xl shadow border border-slate-200 space-y-3">
+      <div class="flex justify-between items-center">
         <h2 class="text-sm font-bold text-slate-700">ట్రాకింగ్ రికార్డులు</h2>
         <span id="pendingCount" class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold">0 Pending</span>
       </div>
-      <div id="recordList" class="space-y-3"></div>
+
+      <!-- Search & Filter Bar -->
+      <div class="space-y-2">
+        <div class="relative">
+          <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-xs"></i>
+          <input type="text" id="searchInput" oninput="renderDashboard()" placeholder="పేరు, నంబర్ లేదా ఫైల్ పేరుతో వెతకండి..." class="w-full pl-8 pr-3 py-2 border rounded-xl text-xs outline-none focus:border-indigo-600 bg-slate-50">
+        </div>
+        <div class="flex gap-1.5 overflow-x-auto pb-1">
+          <button type="button" onclick="setFilter('ALL')" id="filterBtn_ALL" class="px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm">అన్నీ</button>
+          <button type="button" onclick="setFilter('PENDING')" id="filterBtn_PENDING" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700">పెండింగ్</button>
+          <button type="button" onclick="setFilter('RETURNED')" id="filterBtn_RETURNED" class="px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700">రిటర్న్</button>
+        </div>
+      </div>
+
+      <div id="recordList" class="space-y-3 pt-1"></div>
+
+      <!-- Backup & Restore Actions -->
+      <div class="pt-3 border-t flex justify-between gap-2">
+        <button type="button" onclick="exportData()" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-xl border border-slate-300 flex items-center justify-center gap-1">
+          <i class="fas fa-download"></i> బ్యాకప్ (Export)
+        </button>
+        <label class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-xl border border-slate-300 flex items-center justify-center gap-1 cursor-pointer">
+          <i class="fas fa-upload"></i> రిస్టోర్ (Import)
+          <input type="file" accept=".json" onchange="importData(this)" class="hidden">
+        </label>
+      </div>
     </div>
 
   </div>
 
   <script>
     var pickedFile = null;
+    var currentFilter = 'ALL';
 
-    // Contact Picker with fallback check
+    function setFilter(status) {
+      currentFilter = status;
+      ['ALL', 'PENDING', 'RETURNED'].forEach(function(s) {
+        var btn = document.getElementById('filterBtn_' + s);
+        if (s === status) {
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-indigo-600 text-white shadow-sm';
+        } else {
+          btn.className = 'px-3 py-1 rounded-lg text-xs font-bold bg-slate-200 text-slate-700';
+        }
+      });
+      renderDashboard();
+    }
+
     async function pickContact() {
       if ('contacts' in navigator && 'select' in navigator.contacts) {
         try {
@@ -176,7 +214,6 @@
       document.getElementById('fileBadge').classList.add('hidden');
     }
 
-    // Convert YYYY-MM-DD to DD/MM/YYYY
     function formatToIndianDate(isoStr) {
       if (!isoStr) return "";
       var p = isoStr.split('-');
@@ -186,7 +223,6 @@
       return isoStr;
     }
 
-    // Set Due Date by Days selection
     function onDaysChange() {
       var days = parseInt(document.getElementById('daysSelect').value, 10) || 3;
       var d = new Date();
@@ -200,7 +236,6 @@
       updateNoticeText();
     }
 
-    // When user manually picks a date from calendar
     function onCustomDateChange() {
       updateNoticeText();
     }
@@ -353,20 +388,61 @@
       }
     }
 
+    function exportData() {
+      var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(getEntries()));
+      var dlAnchorElem = document.createElement('a');
+      dlAnchorElem.setAttribute("href", dataStr);
+      dlAnchorElem.setAttribute("download", "Tahsildar_Peddavaduguru_Backup.json");
+      dlAnchorElem.click();
+    }
+
+    function importData(input) {
+      var file = input.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          var parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed)) {
+            saveEntries(parsed);
+            alert('రికార్డులు విజయవంతంగా లోడ్ చేయబడ్డాయి!');
+          } else {
+            alert('తప్పు ఫైల్ ఫార్మాట్!');
+          }
+        } catch (err) {
+          alert('ఫైల్ చదవడం విఫలమైంది.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
     function renderDashboard() {
       var list = getEntries();
       var container = document.getElementById('recordList');
       if (!container) return;
 
-      var pendingCount = list.filter(function(item) { return item.status === 'PENDING'; }).length;
-      document.getElementById('pendingCount').innerText = pendingCount + ' Pending';
+      var searchVal = (document.getElementById('searchInput').value || '').toLowerCase();
 
-      if (list.length === 0) {
-        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">ఇంకా ఎలాంటి రికార్డులు లేవు.</p>';
+      // Filter by Status and Search query
+      var filtered = list.filter(function(item) {
+        var matchesStatus = (currentFilter === 'ALL' || item.status === currentFilter);
+        var matchesSearch = !searchVal || 
+          item.name.toLowerCase().includes(searchVal) || 
+          item.phone.includes(searchVal) || 
+          item.docName.toLowerCase().includes(searchVal) || 
+          item.category.toLowerCase().includes(searchVal);
+        return matchesStatus && matchesSearch;
+      });
+
+      var pendingCount = list.filter(function(item) { return item.status === 'PENDING'; }).length;
+      document.getElementById('pendingCount').innerText = pendingCount + ' పెండింగ్';
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">తగిన రికార్డులు ఏవీ కనుగొనబడలేదు.</p>';
         return;
       }
 
-      container.innerHTML = list.map(function(item) {
+      container.innerHTML = filtered.map(function(item) {
         return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs">' +
             '<div class="flex justify-between items-start">' +
               '<div>' +
@@ -398,7 +474,6 @@
       }).join('');
     }
 
-    // Direct initialization
     onDaysChange();
     renderDashboard();
   </script>
