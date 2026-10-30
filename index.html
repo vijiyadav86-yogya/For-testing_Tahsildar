@@ -9,6 +9,10 @@
   <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .unlocked #lockScreen { display: none !important; }
+    .unlocked #mainApp { display: block !important; }
+  </style>
 </head>
 <body class="bg-slate-100 min-h-screen p-3 text-slate-800">
 
@@ -24,7 +28,7 @@
       </div>
       <div>
         <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-indigo-600 font-bold mx-auto block bg-slate-50">
-        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (మళ్లీ ప్రయత్నించండి)</p>
+        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (1234 ఎంటర్ చేయండి)</p>
       </div>
       <button type="button" onclick="checkPassword()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
         లాగిన్ అవ్వండి <i class="fas fa-arrow-right ml-1"></i>
@@ -161,8 +165,7 @@
     function checkPassword() {
       var val = document.getElementById('passInput').value;
       if (val === '1234') {
-        document.getElementById('lockScreen').classList.add('hidden');
-        document.getElementById('mainApp').classList.remove('hidden');
+        document.body.classList.add('unlocked');
         sessionStorage.setItem('isUnlocked', 'true');
       } else {
         var err = document.getElementById('passError');
@@ -174,25 +177,27 @@
 
     function lockApp() {
       sessionStorage.removeItem('isUnlocked');
+      document.body.classList.remove('unlocked');
       document.getElementById('passInput').value = '';
-      document.getElementById('mainApp').classList.add('hidden');
-      document.getElementById('lockScreen').classList.remove('hidden');
     }
 
     window.addEventListener('DOMContentLoaded', function() {
       if (sessionStorage.getItem('isUnlocked') === 'true') {
-        document.getElementById('lockScreen').classList.add('hidden');
-        document.getElementById('mainApp').classList.remove('hidden');
+        document.body.classList.add('unlocked');
       }
     });
 
-    document.getElementById('passInput').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') checkPassword();
+    document.addEventListener('DOMContentLoaded', function() {
+      var passInput = document.getElementById('passInput');
+      if (passInput) {
+        passInput.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') checkPassword();
+        });
+      }
     });
 
     var pickedFile = null;
 
-    // Contact Picker with fallback check
     async function pickContact() {
       if ('contacts' in navigator && 'select' in navigator.contacts) {
         try {
@@ -235,7 +240,6 @@
       document.getElementById('fileBadge').classList.add('hidden');
     }
 
-    // Convert YYYY-MM-DD to DD/MM/YYYY
     function formatToIndianDate(isoStr) {
       if (!isoStr) return "";
       var p = isoStr.split('-');
@@ -245,7 +249,6 @@
       return isoStr;
     }
 
-    // Set Due Date by Days selection
     function onDaysChange() {
       var days = parseInt(document.getElementById('daysSelect').value, 10) || 3;
       var d = new Date();
@@ -259,7 +262,6 @@
       updateNoticeText();
     }
 
-    // When user manually picks a date from calendar
     function onCustomDateChange() {
       updateNoticeText();
     }
@@ -423,4 +425,8 @@
       if (list.length === 0) {
         container.innerHTML = '<p class="text-xs text-slate-400 text-center py-4">ఇంకా ఎలాంటి రికార్డులు లేవు.</p>';
         return;
-     
+      }
+
+      container.innerHTML = list.map(function(item) {
+        return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs">' +
+            '<div class="fle
