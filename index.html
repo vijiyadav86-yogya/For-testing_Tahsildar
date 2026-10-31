@@ -24,11 +24,11 @@
       </div>
       <div>
         <h2 class="text-base font-bold text-slate-800">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h2>
-        <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ నమోదు చేయండి</p>
+        <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ (1234) నమోదు చేయండి</p>
       </div>
       <div>
         <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-indigo-600 font-bold mx-auto block bg-slate-50">
-        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (1122 ఎంటర్ చేయండి)</p>
+        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (1234 ఎంటర్ చేయండి)</p>
       </div>
       <button type="button" onclick="checkPassword()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
         లాగిన్ అవ్వండి <i class="fas fa-arrow-right ml-1"></i>
@@ -43,7 +43,7 @@
       <div class="flex items-center gap-2">
         <i class="fas fa-landmark text-2xl text-amber-400"></i>
         <div>
-          <h1 class="text-base font-bold">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h1>
+          <h1 class="text-base font-bold">తహసీల్దార్ వారి  కార్యాలయం, పెద్దవడుగూరు</h1>
           <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్</p>
         </div>
       </div>
@@ -68,10 +68,14 @@
         </label>
         <select id="categorySelect" onchange="updateNoticeText()" class="w-full border-2 border-amber-300 rounded-xl p-2.5 text-xs font-bold text-slate-800 bg-white outline-none focus:border-indigo-600">
           <option value="" selected>-- ఎంచుకోండి (Select Category) --</option>
-          <option value="Mutations">1. Mutations (మ్యుటేషన్స్)</option>
+          <option value="Mutations">1. Mutations & Corrections (మ్యుటేషన్స్/సవరణలు )</option>
           <option value="PGRS">2. PGRS (ప్రజా సమస్యల పరిష్కార వేదిక)</option>
           <option value="Mandala arjilu">3. Mandala arjilu (మండల అర్జీలు)</option>
-          <option value="Others">4. Others (ఇతరములు)</option>
+          <option value="Mandala arjilu">4. F-Line (భూ సరిహద్దుల వివాదం)</option>
+          <option value="Mandala arjilu">5. Joint LPM (జాయింట్ LPM సమస్య)</option>
+          <option value="Mandala arjilu">5. Elections (ఎన్నికలు )</option>
+          <option value="Mandala arjilu">6. Civil Supplies (పౌర సరఫరాలు  )</option>
+          <option value="Others">7. Others (ఇతరములు)</option>
         </select>
       </div>
       
@@ -161,7 +165,7 @@
   </div>
 
   <script>
-    // Password check logic
+    // Password check logic (Password: 1234)
     function checkPassword() {
       var val = document.getElementById('passInput').value;
       if (val === '1234') {
@@ -185,6 +189,8 @@
       if (sessionStorage.getItem('isUnlocked') === 'true') {
         document.body.classList.add('unlocked');
       }
+      onDaysChange();
+      renderDashboard();
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -428,5 +434,42 @@
       }
 
       container.innerHTML = list.map(function(item) {
-        return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs">' +
-            '<div class="fle
+        var isPending = item.status === 'PENDING';
+        var statusBadge = isPending 
+          ? '<span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold text-[10px]">PENDING</span>'
+          : '<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold text-[10px]">RETURNED</span>';
+
+        var fileBtn = item.fileData 
+          ? '<button onclick="viewAttachment(' + item.id + ')" class="text-indigo-600 font-bold underline mr-2"><i class="fas fa-paperclip"></i> ' + (item.fileName || 'డైరెక్ట్ ఫైల్') + '</button>'
+          : '<span class="text-slate-400">ఫైల్ లేదు</span>';
+
+        var actionBtns = isPending
+          ? '<button onclick="markReturned(' + item.id + ')" class="bg-emerald-600 text-white px-2 py-1 rounded font-bold text-[10px]">సమర్పించారు (Returned)</button>'
+          : '<button onclick="sendReminder(\x27' + item.phone + '\x27, \x27' + item.name + '\x27, \x27' + item.docName + '\x27, \x27' + item.dueDate + '\x27, \x27' + item.category + '\x27)" class="bg-amber-600 text-white px-2 py-1 rounded font-bold text-[10px]"><i class="fab fa-whatsapp"></i> రిమైండర్</button>';
+
+        return '<div class="border rounded-xl p-3 bg-slate-50 space-y-2 text-xs border-slate-200 shadow-sm">' +
+          '<div class="flex justify-between items-start">' +
+            '<div>' +
+              '<span class="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-extrabold text-[10px] uppercase">' + (item.category || 'GENERAL') + '</span>' +
+              '<h3 class="font-bold text-slate-800 text-sm mt-1">' + item.name + ' <span class="text-slate-500 font-normal">(' + item.phone + ')</span></h3>' +
+              '<p class="text-slate-600 font-medium">ఫైల్ / అర్జీ: <span class="text-indigo-700 font-bold">' + item.docName + '</span></p>' +
+            '</div>' +
+            '<div>' + statusBadge + '</div>' +
+          '</div>' +
+          '<div class="text-[11px] text-slate-500 flex justify-between border-t border-slate-200 pt-1.5">' +
+            '<span>పంపిన తేదీ: <b>' + item.sentDate + '</b></span>' +
+            '<span>గడువు తేదీ: <b class="text-red-600">' + item.dueDate + '</b></span>' +
+          '</div>' +
+          '<div class="flex justify-between items-center pt-1 border-t border-slate-200">' +
+            '<div class="truncate max-w-[180px] text-[11px]">' + fileBtn + '</div>' +
+            '<div class="flex gap-1.5">' +
+              actionBtns +
+              '<button onclick="deleteRecord(' + item.id + ')" class="text-red-500 hover:text-red-700 px-1.5 py-1"><i class="fas fa-trash"></i></button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  </script>
+</body>
+</html>
