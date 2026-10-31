@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tahsildar Office, Peddavaduguru</title>
+  <title>తహసీల్దార్ వారి కార్యాలయం - పెద్దవడుగూరు మండలం</title>
   <!-- App Icon / Favicon -->
   <link rel="icon" type="image/svg+xml" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
   <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/svgs/solid/landmark.svg">
@@ -23,12 +23,12 @@
         <i class="fas fa-shield-alt text-amber-500"></i>
       </div>
       <div>
-        <h2 class="text-base font-bold text-slate-800">తహసీల్దార్ కార్యాలయం, పెద్దవడుగూరు</h2>
-        <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ (1234) నమోదు చేయండి</p>
+        <h2 class="text-base font-bold text-slate-800">తహసీల్దార్ వారి కార్యాలయం - పెద్దవడుగూరు</h2>
+        <p class="text-xs text-slate-500 mt-1">దయచేసి లాగిన్ కావడానికి పాస్‌వర్డ్ (8688) నమోదు చేయండి</p>
       </div>
       <div>
         <input type="password" id="passInput" maxlength="4" placeholder="••••" class="w-36 text-center tracking-widest text-2xl border-2 border-slate-300 rounded-xl py-2.5 outline-none focus:border-indigo-600 font-bold mx-auto block bg-slate-50">
-        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (1234 ఎంటర్ చేయండి)</p>
+        <p id="passError" class="text-red-500 text-xs mt-2 hidden font-bold">తప్పు పాస్‌వర్డ్! (8688 ఎంటర్ చేయండి)</p>
       </div>
       <button type="button" onclick="checkPassword()" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold py-3 rounded-xl text-sm shadow-md transition">
         లాగిన్ అవ్వండి <i class="fas fa-arrow-right ml-1"></i>
@@ -43,8 +43,8 @@
       <div class="flex items-center gap-2">
         <i class="fas fa-landmark text-2xl text-amber-400"></i>
         <div>
-          <h1 class="text-base font-bold">తహసీల్దార్ వారి  కార్యాలయం, పెద్దవడుగూరు</h1>
-          <p class="text-indigo-200 text-xs">అధికారిక రికార్డుల & నోటీస్ ట్రాకర్</p>
+          <h1 class="text-base font-bold">తహసీల్దార్ డాష్‌బోర్డ్</h1>
+          <p class="text-indigo-200 text-xs">పెద్దవడుగూరు మండలం • రెవెన్యూ విభాగం</p>
         </div>
       </div>
       <button type="button" onclick="lockApp()" class="text-indigo-200 hover:text-white text-xs bg-indigo-900/50 px-2.5 py-1.5 rounded-lg border border-indigo-700 flex items-center gap-1">
@@ -68,7 +68,7 @@
         </label>
         <select id="categorySelect" onchange="updateNoticeText()" class="w-full border-2 border-amber-300 rounded-xl p-2.5 text-xs font-bold text-slate-800 bg-white outline-none focus:border-indigo-600">
           <option value="" selected>-- ఎంచుకోండి (Select Category) --</option>
-          <option value="Mutations">1. Mutations & Corrections (మ్యుటేషన్స్/సవరణలు )</option>
+          <option value="Mutations">1. Mutations (మ్యుటేషన్స్)</option>
           <option value="PGRS">2. PGRS (ప్రజా సమస్యల పరిష్కార వేదిక)</option>
           <option value="Mandala arjilu">3. Mandala arjilu (మండల అర్జీలు)</option>
           <option value="Mandala arjilu">4. F-Line (భూ సరిహద్దుల వివాదం)</option>
@@ -76,6 +76,7 @@
           <option value="Mandala arjilu">5. Elections (ఎన్నికలు )</option>
           <option value="Mandala arjilu">6. Civil Supplies (పౌర సరఫరాలు  )</option>
           <option value="Others">7. Others (ఇతరములు)</option>
+          <option value="Others">4. Others (ఇతరములు)</option>
         </select>
       </div>
       
@@ -156,7 +157,7 @@
     <!-- Records Dashboard -->
     <div class="bg-white p-5 rounded-2xl shadow border border-slate-200">
       <div class="flex justify-between items-center mb-3">
-        <h2 class="text-sm font-bold text-slate-700">ట్రాకింగ్ రికార్డులు</h2>
+        <h2 class="text-sm font-bold text-slate-700">ట్రాకింగ్ రికార్డులు (Records)[cite: 2]</h2>
         <span id="pendingCount" class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full font-bold">0 Pending</span>
       </div>
       <div id="recordList" class="space-y-3"></div>
@@ -165,10 +166,10 @@
   </div>
 
   <script>
-    // Password check logic (Password: 1234)
+    // Password check logic (Password: 8688)
     function checkPassword() {
       var val = document.getElementById('passInput').value;
-      if (val === '1234') {
+      if (val === '8688') {
         document.body.classList.add('unlocked');
         sessionStorage.setItem('isUnlocked', 'true');
       } else {
@@ -292,7 +293,12 @@
 
     function getEntries() {
       try {
-        return JSON.parse(localStorage.getItem('f8_records') || '[]');
+        var list = JSON.parse(localStorage.getItem('f8_records') || '[]');
+        // Sort records so that closer due dates appear first (earliest dates first)
+        list.sort(function(a, b) {
+          return new Date(a.rawDueDate || a.dueDate) - new Date(b.rawDueDate || b.dueDate);
+        });
+        return list;
       } catch (e) {
         return [];
       }
@@ -325,7 +331,7 @@
         alert('దయచేసి విభాగం (Category) ఎంచుకోండి!');
         return;
       }
-      if (!name || !rawPhone || !doc || !dueDateVal) {
+      if (!name || !rawPhone || !doc || !rawDate) {
         alert('దయచేసి అన్ని వివరాలను నమోదు చేయండి!');
         return;
       }
@@ -362,6 +368,7 @@
         fileType: fileType,
         sentDate: sentDateFormatted,
         dueDate: dueDateVal,
+        rawDueDate: rawDate, // Used for sorting by closest due date
         daysAllowed: document.getElementById('daysSelect').value || '3',
         status: 'PENDING'
       };
