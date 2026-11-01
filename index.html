@@ -27,7 +27,6 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(16px);
     }
-    /* Mobile-friendly table adjustments */
     @media (max-width: 768px) {
       .table-responsive-wrapper {
         overflow-x: auto;
@@ -132,7 +131,7 @@
         <div>
           <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
             <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight drop-shadow-sm">తహసీల్దార్ వారి కార్యాలయం</h1>
-            <span class="bg-amber-400/20 text-amber-300 border border-amber-300/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider"></span>
+            <span class="bg-amber-400/20 text-amber-300 border border-amber-300/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">లైవ్ డెస్క్</span>
           </div>
           <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు మండలం • రెవెన్యూ విభాగం</p>
         </div>
@@ -186,7 +185,7 @@
             <i data-lucide="lock" class="w-3.5 h-3.5"></i> తిరిగి లాక్ చేయి
           </button>
           <span class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-200 flex items-center gap-1.5">
-            <i data-lucide="check-check" class="w-3.5 h-3.5"></i>
+            <i data-lucide="check-check" class="w-3.5 h-3.5"></i> ఆన్‌లైన్ నోటీస్ సదుపాయం
           </span>
         </div>
       </div>
@@ -195,17 +194,17 @@
         <fieldset id="formFieldSet" disabled class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
+            <!-- Revenue Category -->
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">అర్జీ రకం (Revenue Category)</label>
               <div class="relative">
-                <select id="appType" required class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition appearance-none font-medium shadow-sm">
-                  <option value="Select">ఎంచుకోండి</option>
+                <select id="appType" required onchange="updateSubCategories()" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition appearance-none font-medium shadow-sm">
+                  <option value="">ఎంచుకోండి</option>
                   <option value="ROR">ROR</option>
-                  <option value="PGRS (PGRS)">PGRS అర్జీ</option>
+                  <option value="PGRS">PGRS అర్జీ</option>
+                  <option value="Survey">Survey</option>
                   <option value="మండలo అప్లికేషన్">మండలo అప్లికేషన్</option>
                   <option value="APSEVA కొరకు">APSEVA కొరకు</option>
-                  <option value="భూ సరిహద్దుల వివాదం (F-Line)">భూ సరిహద్దుల వివాదం (F-Line)</option>
-                  <option value="Resurvey (Joint LPM)">Resurvey (Joint LPM)</option>
                   <option value="ఎన్నికలు (Elections)">ఎన్నికలు (Elections)</option>
                   <option value="పౌర సరఫరాలు (Civil Supplies)">పౌర సరఫరాలు (Civil Supplies)</option>
                   <option value="ఇతరములు">ఇతరములు</option>
@@ -214,10 +213,21 @@
               </div>
             </div>
 
+            <!-- Sub Category (Dynamic) -->
+            <div id="subCategoryContainer" class="hidden">
+              <label class="block text-xs font-bold text-teal-800 uppercase tracking-wider mb-2">సబ్-కేటగిరీ (Sub Category)</label>
+              <div class="relative">
+                <select id="subCategory" class="w-full bg-teal-50/50 border border-teal-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition appearance-none font-semibold shadow-sm">
+                  <option value="">సబ్-కేటగిరీ ఎంచుకోండి</option>
+                </select>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-teal-600 absolute right-3.5 top-4 pointer-events-none"></i>
+              </div>
+            </div>
+
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">అర్జిదారుని పేరు (Applicant Name)</label>
               <div class="relative">
-                <input type="text" id="applicantName" placeholder="      " required class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm">
+                <input type="text" id="applicantName" placeholder="ఉదా: రామాంజనేయులు" required class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm">
                 <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute right-3.5 top-3.5"></i>
               </div>
             </div>
@@ -425,6 +435,37 @@
       initFirebaseAndListen();
     });
 
+    // Sub-category logic based on user request
+    function updateSubCategories() {
+      const appType = document.getElementById('appType').value;
+      const subContainer = document.getElementById('subCategoryContainer');
+      const subSelect = document.getElementById('subCategory');
+      
+      subSelect.innerHTML = '<option value="">సబ్-కేటగిరీ ఎంచుకోండి</option>';
+
+      let options = [];
+      if (appType === 'ROR') {
+        options = ['Mutation', 'Corrections'];
+      } else if (appType === 'PGRS') {
+        options = ['Collector', 'Mandal arjilu', 'MLA/MLC', 'Others'];
+      } else if (appType === 'Survey') {
+        options = ['భూ సరిహద్దుల వివాదం (F-Line)', 'Resurvey issues'];
+      }
+
+      if (options.length > 0) {
+        options.forEach(opt => {
+          const el = document.createElement('option');
+          el.value = opt;
+          el.textContent = opt;
+          subSelect.appendChild(el);
+        });
+        subContainer.classList.remove('hidden');
+      } else {
+        subContainer.classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
     function openTahsildarModal() {
       document.getElementById('tahsildarAuthOverlay').classList.remove('hidden');
       document.getElementById('tahsildarPinInput').value = '';
@@ -457,7 +498,7 @@
       const message = `🚨 *తహసీల్దార్ డాష్‌బోర్డ్ సెక్యూరిటీ అలర్ట్*\n\n👤 *వివరణ:* తహసీల్దార్ డాష్‌బోర్డ్‌లో లాగిన్ అయ్యారు!\n📅 *సమయం:* ${now}\n🌐 *డివైస్:* ${device}\n📍 *కార్యాలయం:* పెద్దవడుగూరు మండలం`;
 
       try {
-        if (TELEGRAM_BOT_TOKEN && !TELEGRAM_BOT_TOKEN.includes("8574711167:AAH6Vkb8cDYflP_-3lYpgBkVAeBDdIUKog4")) {
+        if (TELEGRAM_BOT_TOKEN && !TELEGRAM_BOT_TOKEN.includes("MEE_BOT_TOKEN")) {
           const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
           fetch(url, { mode: 'no-cors' }).catch(err => console.warn("Telegram alert skipped:", err));
         }
@@ -702,7 +743,9 @@
         fileInfoText = `\n📄 *అర్జీ ఫైల్ పేరు:* ${item.fileInfo.name}\n🔗 *గమనిక:* పూర్తి డాక్యుమెంట్ (PDF) తహసీల్దార్ డాష్‌బోర్డ్‌లో 'చూడండి' బటన్ ద్వారా వీక్షించవచ్చు.`;
       }
 
-      return `${header}\n━━━━━━━━━━━━━━━━━━━━\n📌 *విచారణ నివేదిక కొరకు*\n\n👤 *సిబ్బంది పేరు:* ${item.staffName}\n📂 *అర్జీ రకం :* ${item.appType}\n👤 *అర్జిదారుని పేరు :* ${item.applicantName}\n📄 *రిఫరెన్స్ నంబర్:* ${item.refNo}\n📅 *పరిష్కార గడువు తేదీ:* ${item.dueDate ? item.dueDate.replace('T', ' ') : 'N/A'}${fileInfoText}\n\n${reminderNote}`;
+      const fullAppType = item.subCategory ? `${item.appType} - ${item.subCategory}` : item.appType;
+
+      return `${header}\n━━━━━━━━━━━━━━━━━━━━\n📌 *విచారణ నివేదిక కొరకు*\n\n👤 *సిబ్బంది పేరు:* ${item.staffName}\n📂 *అర్జీ రకం :* ${fullAppType}\n👤 *అర్జిదారుని పేరు :* ${item.applicantName}\n📄 *రిఫరెన్స్ నంబర్:* ${item.refNo}\n📅 *పరిష్కార గడువు తేదీ:* ${item.dueDate ? item.dueDate.replace('T', ' ') : 'N/A'}${fileInfoText}\n\n${reminderNote}`;
     }
 
     function dispatchToWhatsApp(phone, text) {
@@ -721,6 +764,7 @@
 
     async function getFormData() {
       const appType = document.getElementById('appType').value;
+      const subCategory = document.getElementById('subCategory').value;
       const applicantName = document.getElementById('applicantName').value.trim();
       const refNo = document.getElementById('refNo').value.trim();
       const staffName = document.getElementById('staffName').value.trim();
@@ -728,7 +772,7 @@
       const dueDate = document.getElementById('dueDate').value;
       const fileInput = document.getElementById('fileUpload');
 
-      if (!applicantName || !refNo || !staffName || !staffPhone || !dueDate) {
+      if (!appType || !applicantName || !refNo || !staffName || !staffPhone || !dueDate) {
         alert('దయచేసి అన్ని వివరాలను సరిగ్గా నమోదు చేయండి.');
         return null;
       }
@@ -737,7 +781,7 @@
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
         if (file.size > 950000) {
-          alert("ఫైల్ సైజు 2MB కంటే తక్కువగా ఉండాలి.");
+          alert("ఫైల్ సైజు 1MB కంటే తక్కువగా ఉండాలి.");
           return null;
         }
         fileData = await fileToBase64(file);
@@ -747,6 +791,7 @@
 
       return {
         appType,
+        subCategory,
         applicantName,
         refNo,
         staffName,
@@ -779,6 +824,7 @@
         await db.collection("notices").add(item);
         dispatchToWhatsApp(item.staffPhone, generateMessageText(item, false));
         document.getElementById('dispatchForm').reset();
+        document.getElementById('subCategoryContainer').classList.add('hidden');
         applyPresetDays(3);
         lockDispatchForm();
         alert('ఆదేశాలు విజయవంతంగా జారీ చేయబడ్డాయి & క్లౌడ్‌లో భద్రపరచబడ్డాయి.');
@@ -890,7 +936,8 @@
           (r.refNo && r.refNo.toLowerCase().includes(q)) ||
           (r.applicantName && r.applicantName.toLowerCase().includes(q)) ||
           (r.staffName && r.staffName.toLowerCase().includes(q)) ||
-          (r.appType && r.appType.toLowerCase().includes(q))
+          (r.appType && r.appType.toLowerCase().includes(q)) ||
+          (r.subCategory && r.subCategory.toLowerCase().includes(q))
         );
 
         if (!matchesQuery) return false;
@@ -969,11 +1016,13 @@
         const row = document.createElement('tr');
         row.className = `transition border-b border-slate-100 ${isOverdue ? 'bg-rose-50/50 hover:bg-rose-50/80' : isLapsingSoon ? 'bg-amber-50/50 hover:bg-amber-50/80' : 'hover:bg-slate-50'}`;
         
+        const displayCategory = r.subCategory ? `${r.appType} (${r.subCategory})` : r.appType;
+
         const tdRef = document.createElement('td');
         tdRef.className = "px-4 sm:px-5 py-4";
         tdRef.innerHTML = `
           <div class="font-black text-slate-900 text-xs sm:text-sm">${r.refNo}</div>
-          <div class="text-[11px] sm:text-xs text-teal-700 font-bold tracking-wide">${r.appType}</div>
+          <div class="text-[11px] sm:text-xs text-teal-700 font-bold tracking-wide">${displayCategory}</div>
           <div class="text-[11px] sm:text-xs text-slate-600 font-medium mt-0.5">అర్జిదారు: <span class="font-semibold text-slate-800">${r.applicantName}</span></div>
         `;
         row.appendChild(tdRef);
@@ -1078,10 +1127,10 @@
         return;
       }
       let csvContent = "\uFEFF";
-      csvContent += "రిఫరెన్స్ నంబర్,అర్జీ రకం,అర్జిదారుని పేరు,సిబ్బంది పేరు,ఫోన్ నంబర్,పంపిన సమయం,చివరి రిమైండర్,రిమైండర్ల సంఖ్య,గడువు తేదీ,స్టేటస్\n";
+      csvContent += "రిఫరెన్స్ నంబర్,అర్జీ రకం,సబ్-కేటగిరీ,అర్జిదారుని పేరు,సిబ్బంది పేరు,ఫోన్ నంబర్,పంపిన సమయం,చివరి రిమైండర్,రిమైండర్ల సంఖ్య,గడువు తేదీ,స్టేటస్\n";
 
       records.forEach(r => {
-        csvContent += `"${r.refNo}","${r.appType}","${r.applicantName}","${r.staffName}","${r.staffPhone}","${r.sentAt || ''}","${r.lastReminderAt || ''}","${r.reminderCount || 0}","${r.dueDate}","${r.status}"\n`;
+        csvContent += `"${r.refNo}","${r.appType}","${r.subCategory || ''}","${r.applicantName}","${r.staffName}","${r.staffPhone}","${r.sentAt || ''}","${r.lastReminderAt || ''}","${r.reminderCount || 0}","${r.dueDate}","${r.status}"\n`;
       });
 
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
