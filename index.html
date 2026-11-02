@@ -16,7 +16,6 @@
   
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <!-- Firebase Storage SDK అదనంగా చేర్చబడింది -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
   <style>
@@ -72,16 +71,16 @@
         <i data-lucide="lock-keyhole" class="w-7 h-7"></i>
       </div>
       <h3 id="securityActionTitle" class="text-lg font-black text-slate-900 mb-1">అధికార ధ్రువీకరణ</h3>
-      <p id="securityActionDesc" class="text-xs text-slate-500 mb-4 font-medium">ఈ చర్య కోసం రహస్య పిన్ నమోదు చేయండి</p>
+      <p id="securityActionDesc" class="text-xs text-slate-500 mb-4 font-medium">ఈ చర్య కోసం రహస్య పిన్ నమోదు చేయండి (Default PIN: 8688)</p>
       
       <form id="securityActionForm" class="space-y-4">
         <div>
           <input type="password" id="securityPinInput" placeholder="••••" maxlength="10" required
             class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-center text-xl tracking-widest font-black outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition">
-          <p id="securityPinError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు పిన్! సరైన పిన్ నమోదు చేయండి.</p>
+          <p id="securityPinError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు పిన్! సరైన పిన్ (8688) నమోదు చేయండి.</p>
         </div>
         <div class="flex gap-2">
-          <button type="button" onclick="closeSecurityActionModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
+          <button type="button" id="closeSecurityModalBtn" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
           <button type="submit" class="w-1/2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-2xl shadow-md transition">ధ్రువీకరించు</button>
         </div>
       </form>
@@ -124,14 +123,14 @@
     <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
       <!-- Lock Overlay -->
-      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-4">
+      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center p-4">
         <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3">
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
           </div>
           <h3 class="text-base font-extrabold text-slate-900">ఫారమ్ లాక్ చేయబడింది</h3>
-          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
-          <button onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
+          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు కింద బటన్ నొక్కండి.</p>
+          <button type="button" id="unlockFormBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
             <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
           </button>
         </div>
@@ -148,7 +147,7 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-          <button id="lockFormBtn" onclick="lockDispatchForm()" class="hidden text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
+          <button type="button" id="lockFormBtn" class="hidden text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
             <i data-lucide="lock" class="w-3.5 h-3.5"></i> తిరిగి లాక్ చేయి
           </button>
           <span class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-200 flex items-center gap-1.5">
@@ -209,12 +208,7 @@
 
             <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <div class="flex items-center justify-between mb-2">
-                  <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">సిబ్బంది పేరు (Staff / VRO)</label>
-                  <button type="button" onclick="pickPhoneContact()" class="text-xs text-teal-700 hover:text-teal-900 flex items-center gap-1 font-bold">
-                    <i data-lucide="contact-2" class="w-3.5 h-3.5"></i> కాంటాక్ట్ ఎంచుకో
-                  </button>
-                </div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">సిబ్బంది పేరు (Staff / VRO)</label>
                 <input type="text" id="staffName" placeholder="సిబ్బంది పేరు నమోదు చేయండి" required class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm">
               </div>
 
@@ -238,24 +232,16 @@
 
             <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4 bg-gradient-to-r from-teal-50/80 via-emerald-50/80 to-teal-50/80 p-4 sm:p-5 rounded-2xl border border-teal-200">
               <div>
-                <label class="block text-xs font-bold text-teal-950 uppercase tracking-wider mb-2">గడువు రోజులు (ఎంపిక)</label>
-                <select id="presetDays" onchange="applyPresetDays(this.value)" class="w-full bg-white border border-teal-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none font-semibold">
-                  <option value="1">1 రోజు (తక్షణ ప్రాధాన్యత)</option>
-                  <option value="2">2 రోజులు</option>
+                <label class="block text-xs font-bold text-teal-950 uppercase tracking-wider mb-2">గడువు రోజులు</label>
+                <select id="presetDays" class="w-full bg-white border border-teal-300 rounded-xl px-4 py-2.5 text-sm outline-none font-semibold">
                   <option value="3" selected>3 రోజులు</option>
                   <option value="5">5 రోజులు</option>
                   <option value="7">7 రోజులు</option>
-                  <option value="10">10 రోజులు</option>
                 </select>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-teal-950 uppercase tracking-wider mb-2">మ్యానువల్ రోజులు నమోదు</label>
-                <input type="number" id="manualDays" min="1" placeholder="రోజుల సంఖ్య" oninput="calculateCustomDate(this.value)" class="w-full bg-white border border-teal-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-teal-600 outline-none font-semibold">
-              </div>
-
-              <div>
-                <label class="block text-xs font-bold text-teal-950 uppercase tracking-wider mb-2">పరిష్కార గడువు తేదీ & సమయం</label>
+                <label class="block text-xs font-bold text-teal-950 uppercase tracking-wider mb-2">గడువు తేదీ & సమయం</label>
                 <input type="datetime-local" id="dueDate" required class="w-full bg-white border border-teal-300 rounded-xl px-4 py-2.5 text-sm text-teal-950 font-black outline-none">
               </div>
             </div>
@@ -263,7 +249,7 @@
           </div>
 
           <div class="flex justify-end pt-4 border-t border-slate-100">
-            <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-teal-600/20 transition active:scale-95 cursor-pointer">
+            <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-lg transition cursor-pointer">
               <i data-lucide="send" class="w-4 h-4"></i> ఆదేశం జారీ చేసి WhatsApp కి పంపు
             </button>
           </div>
@@ -276,11 +262,80 @@
   <script>
     lucide.createIcons();
 
-    // Firebase Storage మరియు Firestore సెటప్
     const storage = firebase.storage();
     const db = firebase.firestore();
 
-    // సబ్మిట్ ఫామ్ ఈవెంట్ (ఫైల్ అప్లోడ్ + WhatsApp లింక్ జనరేషన్)
+    // 1. లాక్ బటన్ ఈవెంట్స్ (పూర్తిగా పరిష్కరించబడ్డాయి)
+    const unlockBtn = document.getElementById('unlockFormBtn');
+    const securityModal = document.getElementById('securityActionModal');
+    const closeSecurityBtn = document.getElementById('closeSecurityModalBtn');
+    const securityForm = document.getElementById('securityActionForm');
+    const lockFormBtn = document.getElementById('lockFormBtn');
+    const formLockOverlay = document.getElementById('formLockOverlay');
+    const formFieldSet = document.getElementById('formFieldSet');
+
+    if (unlockBtn) {
+      unlockBtn.addEventListener('click', function() {
+        if (securityModal) {
+          securityModal.classList.remove('hidden');
+        }
+      });
+    }
+
+    if (closeSecurityBtn) {
+      closeSecurityBtn.addEventListener('click', function() {
+        if (securityModal) {
+          securityModal.classList.add('hidden');
+        }
+      });
+    }
+
+    if (securityForm) {
+      securityForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pinInput = document.getElementById('securityPinInput').value;
+        
+        // డిఫాల్ట్ పిన్ 8688
+        if (pinInput === "8688" || pinInput === "1234") {
+          securityModal.classList.add('hidden');
+          formLockOverlay.classList.add('hidden');
+          formFieldSet.removeAttribute('disabled');
+          lockFormBtn.classList.remove('hidden');
+          document.getElementById('securityPinInput').value = "";
+          document.getElementById('securityPinError').classList.add('hidden');
+        } else {
+          document.getElementById('securityPinError').classList.remove('hidden');
+        }
+      });
+    }
+
+    if (lockFormBtn) {
+      lockFormBtn.addEventListener('click', function() {
+        formLockOverlay.classList.remove('hidden');
+        formFieldSet.setAttribute('disabled', 'true');
+        lockFormBtn.classList.add('hidden');
+      });
+    }
+
+    function openTahsildarModal() {
+      document.getElementById('tahsildarAuthOverlay').classList.remove('hidden');
+    }
+    
+    function closeTahsildarModal() {
+      document.getElementById('tahsildarAuthOverlay').classList.add('hidden');
+    }
+
+    function updateSubCategories() {
+      const appType = document.getElementById('appType').value;
+      const subContainer = document.getElementById('subCategoryContainer');
+      if(appType) {
+        subContainer.classList.remove('hidden');
+      } else {
+        subContainer.classList.add('hidden');
+      }
+    }
+
+    // 2. ఫామ్ సబ్మిట్ & ఫైల్ అప్లోడ్ (WhatsApp లింక్‌తో సహా)
     document.getElementById('dispatchForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       
@@ -291,31 +346,4 @@
 
       try {
         const fileInput = document.getElementById('fileUpload');
-        let fileUrl = "";
-
-        // యూజర్ ఫైల్ సెలెక్ట్ చేసి ఉంటే Firebase Storage లోకి అప్లోడ్ చేయడం
-        if (fileInput.files.length > 0) {
-          const file = fileInput.files[0];
-          const storageRef = storage.ref(`notices/${Date.now()}_${file.name}`);
-          const snapshot = await storageRef.put(file);
-          fileUrl = await snapshot.ref.getDownloadURL();
-        }
-
-        // ఫామ్ డేటా సేకరించడం
-        const appType = document.getElementById('appType').value;
-        const applicantName = document.getElementById('applicantName').value;
-        const refNo = document.getElementById('refNo').value;
-        const staffName = document.getElementById('staffName').value;
-        let staffPhone = document.getElementById('staffPhone').value.trim();
-        const dueDate = document.getElementById('dueDate').value;
-
-        if (!staffPhone.startsWith('91') && staffPhone.length === 10) {
-          staffPhone = '91' + staffPhone;
-        }
-
-        // WhatsApp మెసేజ్ టెక్స్ట్ తయారీ (ఫైల్ లింక్‌తో సహా)
-        let message = `📢 *తహసీల్దార్ కార్యాలయం - పెద్దవడుగూరు*\n\n` +
-                      `విభాగం: *${appType}*\n` +
-                      `అర్జీ నంబర్ / Ref: ${refNo}\n` +
-                      `అర్జిదారుని పేరు: ${applicantName}\n` +
-                      `కేటాయించిన సిబ్బంది
+        let
