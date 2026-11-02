@@ -122,15 +122,15 @@
     <!-- Order Issue Form -->
     <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
-      <!-- Lock Overlay -->
-      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center p-4">
-        <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3">
+      <!-- Lock Overlay (z-index సరిచేయబడింది) -->
+      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-4">
+        <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3 relative z-30">
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
           </div>
           <h3 class="text-base font-extrabold text-slate-900">ఫారమ్ లాక్ చేయబడింది</h3>
-          <p class="text-xs text-slate-500 font-medium"> సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు కింద బటన్ నొక్కండి.</p>
-          <button type="button" id="unlockFormBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
+          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు కింద బటన్ నొక్కండి.</p>
+          <button type="button" id="unlockFormBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer relative z-40">
             <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
           </button>
         </div>
@@ -265,7 +265,7 @@
     const storage = firebase.storage();
     const db = firebase.firestore();
 
-    // 1. లాక్ బటన్ ఈవెంట్స్ (పూర్తిగా పరిష్కరించబడ్డాయి)
+    // లాక్ మరియు అన్‌లాక్ బటన్ ఎలిమెంట్స్
     const unlockBtn = document.getElementById('unlockFormBtn');
     const securityModal = document.getElementById('securityActionModal');
     const closeSecurityBtn = document.getElementById('closeSecurityModalBtn');
@@ -274,8 +274,16 @@
     const formLockOverlay = document.getElementById('formLockOverlay');
     const formFieldSet = document.getElementById('formFieldSet');
 
+    // లాక్ తెరవడానికి బటన్ క్లిక్ ఈవెంట్ (మొబైల్ టచ్ & క్లిక్ సపోర్ట్ కోసం)
     if (unlockBtn) {
-      unlockBtn.addEventListener('click', function() {
+      unlockBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (securityModal) {
+          securityModal.classList.remove('hidden');
+        }
+      });
+      unlockBtn.addEventListener('touchstart', function(e) {
+        e.preventDefault();
         if (securityModal) {
           securityModal.classList.remove('hidden');
         }
@@ -290,6 +298,7 @@
       });
     }
 
+    // పిన్ చెక్ చేసి అన్‌లాక్ చేయడం
     if (securityForm) {
       securityForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -335,15 +344,5 @@
       }
     }
 
-    // 2. ఫామ్ సబ్మిట్ & ఫైల్ అప్లోడ్ (WhatsApp లింక్‌తో సహా)
-    document.getElementById('dispatchForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const submitBtn = document.getElementById('submitBtn');
-      let originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = "అప్‌లోడ్ అవుతోంది... దయచేసి వేచి ఉండండి";
-      submitBtn.disabled = true;
-
-      try {
-        const fileInput = document.getElementById('fileUpload');
-        let
+    // ఫామ్ సబ్మిట్ & ఫైల్ అప్లోడ్ (WhatsApp లింక్‌తో సహా)
+    document.getElementById('dispatchForm').addEventListene
