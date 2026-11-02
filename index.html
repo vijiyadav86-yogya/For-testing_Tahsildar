@@ -28,12 +28,6 @@
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(16px);
     }
-    @media (max-width: 768px) {
-      .table-responsive-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-    }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-20">
@@ -122,7 +116,7 @@
     <!-- Order Issue Form -->
     <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
-      <!-- Lock Overlay (z-index సరిచేయబడింది) -->
+      <!-- Lock Overlay -->
       <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-4">
         <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3 relative z-30">
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
@@ -223,10 +217,11 @@
               </div>
             </div>
 
+            <!-- File Upload Field (సరిచేయబడింది) -->
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">అర్జీ కాపీ (PDF / JPG)</label>
               <div class="relative">
-                <input type="file" id="fileUpload" accept="application/pdf,image/jpeg,image/png" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-800 hover:file:bg-teal-100 border border-slate-300 rounded-2xl p-1.5 bg-slate-50 shadow-sm cursor-pointer">
+                <input type="file" id="fileUpload" accept="application/pdf,image/jpeg,image/png" class="w-full text-xs text-slate-500 file:mr-3 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-800 hover:file:bg-teal-100 border border-slate-300 rounded-2xl p-1.5 bg-slate-50 shadow-sm cursor-pointer relative z-10">
               </div>
             </div>
 
@@ -265,7 +260,7 @@
     const storage = firebase.storage();
     const db = firebase.firestore();
 
-    // లాక్ మరియు అన్‌లాక్ బటన్ ఎలిమెంట్స్
+    // లాక్ మరియు అన్‌లాక్ బటన్ ఈవెంట్స్
     const unlockBtn = document.getElementById('unlockFormBtn');
     const securityModal = document.getElementById('securityActionModal');
     const closeSecurityBtn = document.getElementById('closeSecurityModalBtn');
@@ -274,7 +269,6 @@
     const formLockOverlay = document.getElementById('formLockOverlay');
     const formFieldSet = document.getElementById('formFieldSet');
 
-    // లాక్ తెరవడానికి బటన్ క్లిక్ ఈవెంట్ (మొబైల్ టచ్ & క్లిక్ సపోర్ట్ కోసం)
     if (unlockBtn) {
       unlockBtn.addEventListener('click', function(e) {
         e.preventDefault();
@@ -298,13 +292,11 @@
       });
     }
 
-    // పిన్ చెక్ చేసి అన్‌లాక్ చేయడం
     if (securityForm) {
       securityForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const pinInput = document.getElementById('securityPinInput').value;
         
-        // డిఫాల్ట్ పిన్ 8688
         if (pinInput === "8688" || pinInput === "1234") {
           securityModal.classList.add('hidden');
           formLockOverlay.classList.add('hidden');
@@ -344,5 +336,10 @@
       }
     }
 
-    // ఫామ్ సబ్మిట్ & ఫైల్ అప్లోడ్ (WhatsApp లింక్‌తో సహా)
-    document.getElementById('dispatchForm').addEventListene
+    // ఫామ్ సబ్మిట్ & Firebase Storage ఫైల్ అప్లోడ్ + WhatsApp లింక్
+    document.getElementById('dispatchForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      let originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = "అప్‌లోడ్ అవుతోంది... దయచేసి వేచి ఉండండ
