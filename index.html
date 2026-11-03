@@ -93,7 +93,7 @@
             <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight drop-shadow-sm">తహసీల్దార్ వారి కార్యాలయం</h1>
             <span class="bg-amber-400/20 text-amber-300 border border-amber-300/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">లైవ్ డెస్క్</span>
           </div>
-          <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు మండలం • రెవెన్యూ విభాగం</p>
+          <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు vమండలం • రెవెన్యూ విభాగం</p>
         </div>
       </div>
 
@@ -117,7 +117,7 @@
     <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
       <!-- Lock Overlay -->
-      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-4">
+      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-25 flex flex-col items-center justify-center p-4">
         <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3 relative z-30">
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
@@ -257,9 +257,6 @@
   <script>
     lucide.createIcons();
 
-    // Firebase Initialization Check (మీ ప్రాజెక్ట్ కి తగిన వివరాలు ఇక్కడ ఉండాలి)
-    // firebase.initializeApp({ ... });
-
     const unlockBtn = document.getElementById('unlockFormBtn');
     const securityModal = document.getElementById('securityActionModal');
     const closeSecurityBtn = document.getElementById('closeSecurityModalBtn');
@@ -267,22 +264,21 @@
     const lockFormBtn = document.getElementById('lockFormBtn');
     const formLockOverlay = document.getElementById('formLockOverlay');
 
+    // పేజీ లోడ్ అయిన వెంటనే ఫామ్ లాక్ మోడ్‌లో ఉండాలి
     formLockOverlay.classList.remove('hidden');
     lockFormBtn.classList.add('hidden');
 
+    // "లాక్ తెరవండి" బటన్ క్లిక్ / టచ్ చేసినప్పుడు మోడల్ ఓపెన్ కావడం
     if (unlockBtn) {
-      unlockBtn.addEventListener('click', function(e) {
+      const openModalHandler = function(e) {
         e.preventDefault();
+        e.stopPropagation();
         if (securityModal) {
           securityModal.classList.remove('hidden');
         }
-      });
-      unlockBtn.addEventListener('touchstart', function(e) {
-        e.preventDefault();
-        if (securityModal) {
-          securityModal.classList.remove('hidden');
-        }
-      });
+      };
+      unlockBtn.addEventListener('click', openModalHandler);
+      unlockBtn.addEventListener('touchstart', openModalHandler);
     }
 
     if (closeSecurityBtn) {
@@ -293,14 +289,16 @@
       });
     }
 
+    // పిన్ ధ్రువీకరణ మరియు అన్‌లాక్ లాజిక్
     if (securityForm) {
       securityForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const pinInput = document.getElementById('securityPinInput').value;
         
+        // డిఫాల్ట్ పిన్ 8688 లేదా 1234
         if (pinInput === "8688" || pinInput === "1234") {
           securityModal.classList.add('hidden');
-          formLockOverlay.classList.add('hidden'); 
+          formLockOverlay.classList.add('hidden'); // లాక్ ఓవర్‌లే పూర్తిగా మాయమవుతుంది
           lockFormBtn.classList.remove('hidden');
           document.getElementById('securityPinInput').value = "";
           document.getElementById('securityPinError').classList.add('hidden');
@@ -335,12 +333,11 @@
       }
     }
 
-    // ఫామ్ సబ్మిట్ హ్యాండ్లర్ (సవరించబడింది)
+    // ఫామ్ సబ్మిట్ & WhatsApp కి పంపే కోడ్
     document.getElementById('dispatchForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
       const appType = document.getElementById('appType').value;
       const applicantName = document.getElementById('applicantName').value;
       const staffPhone = document.getElementById('staffPhone').value;
-      const staffName = document.getElementById('staffName').value;
-      const refNo = document.getEl
+      const staffName = docum
