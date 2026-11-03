@@ -32,55 +32,6 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-20">
 
-  <!-- Tahsildar Login Window -->
-  <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 sm:p-7 text-center border border-amber-300">
-      <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-amber-500/20">
-        <i data-lucide="shield-check" class="w-7 h-7 sm:w-8 sm:h-8"></i>
-      </div>
-      <h2 class="text-lg sm:text-xl font-extrabold text-slate-900 mb-1">తహసీల్దార్ వారి లాగిన్</h2>
-      <p class="text-xs text-slate-500 mb-6 font-medium">అధికారిక పర్యవేక్షణ & ఫైళ్ల సమీక్ష</p>
-      
-      <form id="tahsildarAuthForm" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 text-center">రహస్య పిన్ (PIN)</label>
-          <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
-            class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-center text-xl tracking-widest font-black outline-none focus:ring-2 focus:ring-amber-500 focus:bg-white transition">
-          <p id="tahsildarAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">సరైన పిన్ నమోదు చేయండి!</p>
-        </div>
-        <div class="flex gap-2 pt-2">
-          <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
-          <button type="submit" class="w-1/2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold text-xs py-3 rounded-2xl shadow-md transition flex items-center justify-center gap-1.5">
-            <i data-lucide="key" class="w-4 h-4"></i> లాగిన్
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Security Action PIN Modal -->
-  <div id="securityActionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center border-2 border-rose-400">
-      <div class="w-14 h-14 bg-rose-100 text-rose-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">
-        <i data-lucide="lock-keyhole" class="w-7 h-7"></i>
-      </div>
-      <h3 id="securityActionTitle" class="text-lg font-black text-slate-900 mb-1">అధికార ధ్రువీకరణ</h3>
-      <p id="securityActionDesc" class="text-xs text-slate-500 mb-4 font-medium">ఈ చర్య కోసం రహస్య పిన్ నమోదు చేయండి (Default PIN: 8688)</p>
-      
-      <form id="securityActionForm" class="space-y-4">
-        <div>
-          <input type="password" id="securityPinInput" placeholder="••••" maxlength="10" required
-            class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-center text-xl tracking-widest font-black outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition">
-          <p id="securityPinError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు పిన్! సరైన పిన్ (8688) నమోదు చేయండి.</p>
-        </div>
-        <div class="flex gap-2">
-          <button type="button" id="closeSecurityModalBtn" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
-          <button type="submit" class="w-1/2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-2xl shadow-md transition">ధ్రువీకరించు</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Main Header -->
   <header class="bg-gradient-to-r from-teal-900 via-emerald-800 to-cyan-900 text-white shadow-xl sticky top-0 z-40 border-b border-emerald-500/20">
     <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
@@ -93,16 +44,11 @@
             <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight drop-shadow-sm">తహసీల్దార్ వారి కార్యాలయం</h1>
             <span class="bg-amber-400/20 text-amber-300 border border-amber-300/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">లైవ్ డెస్క్</span>
           </div>
-          <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు vమండలం • రెవెన్యూ విభాగం</p>
+          <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు మండలం • రెవెన్యూ విభాగం</p>
         </div>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
-        <button onclick="openTahsildarModal()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black text-xs px-4 py-2.5 rounded-2xl shadow-md border border-amber-300 transition active:scale-95 cursor-pointer">
-          <i data-lucide="shield" class="w-4 h-4 text-slate-950"></i>
-          తహసీల్దార్ డాష్‌బోర్డ్
-        </button>
-
         <div class="inline-flex items-center gap-2 bg-emerald-950/60 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-emerald-200 border border-emerald-400/30 shadow-sm">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
           లైవ్ స్టేటస్
@@ -116,20 +62,6 @@
     <!-- Order Issue Form -->
     <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
-      <!-- Lock Overlay -->
-      <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-25 flex flex-col items-center justify-center p-4">
-        <div class="bg-white/95 p-6 rounded-3xl shadow-2xl text-center max-w-sm w-full border border-slate-200 space-y-3 relative z-30">
-          <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
-            <i data-lucide="shield-alert" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-base font-extrabold text-slate-900">ఫారమ్ లాక్ చేయబడింది</h3>
-          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు కింద బటన్ నొక్కండి.</p>
-          <button type="button" id="unlockFormBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer relative z-40">
-            <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
-          </button>
-        </div>
-      </div>
-
       <div class="border-b border-slate-100 bg-slate-50/90 px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div class="flex items-center space-x-2.5">
           <div class="p-2 bg-teal-100 text-teal-800 rounded-xl">
@@ -141,9 +73,6 @@
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-          <button type="button" id="lockFormBtn" class="hidden text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
-            <i data-lucide="lock" class="w-3.5 h-3.5"></i> తిరిగి లాక్ చేయి
-          </button>
           <span class="text-[11px] font-semibold text-teal-700 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-200 flex items-center gap-1.5">
             <i data-lucide="check-check" class="w-3.5 h-3.5"></i> ఆన్‌లైన్ నోటీస్ సదుపాయం
           </span>
@@ -257,72 +186,6 @@
   <script>
     lucide.createIcons();
 
-    const unlockBtn = document.getElementById('unlockFormBtn');
-    const securityModal = document.getElementById('securityActionModal');
-    const closeSecurityBtn = document.getElementById('closeSecurityModalBtn');
-    const securityForm = document.getElementById('securityActionForm');
-    const lockFormBtn = document.getElementById('lockFormBtn');
-    const formLockOverlay = document.getElementById('formLockOverlay');
-
-    // పేజీ లోడ్ అయిన వెంటనే ఫామ్ లాక్ మోడ్‌లో ఉండాలి
-    formLockOverlay.classList.remove('hidden');
-    lockFormBtn.classList.add('hidden');
-
-    // "లాక్ తెరవండి" బటన్ క్లిక్ / టచ్ చేసినప్పుడు మోడల్ ఓపెన్ కావడం
-    if (unlockBtn) {
-      const openModalHandler = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (securityModal) {
-          securityModal.classList.remove('hidden');
-        }
-      };
-      unlockBtn.addEventListener('click', openModalHandler);
-      unlockBtn.addEventListener('touchstart', openModalHandler);
-    }
-
-    if (closeSecurityBtn) {
-      closeSecurityBtn.addEventListener('click', function() {
-        if (securityModal) {
-          securityModal.classList.add('hidden');
-        }
-      });
-    }
-
-    // పిన్ ధ్రువీకరణ మరియు అన్‌లాక్ లాజిక్
-    if (securityForm) {
-      securityForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const pinInput = document.getElementById('securityPinInput').value;
-        
-        // డిఫాల్ట్ పిన్ 8688 లేదా 1234
-        if (pinInput === "8688" || pinInput === "1234") {
-          securityModal.classList.add('hidden');
-          formLockOverlay.classList.add('hidden'); // లాక్ ఓవర్‌లే పూర్తిగా మాయమవుతుంది
-          lockFormBtn.classList.remove('hidden');
-          document.getElementById('securityPinInput').value = "";
-          document.getElementById('securityPinError').classList.add('hidden');
-        } else {
-          document.getElementById('securityPinError').classList.remove('hidden');
-        }
-      });
-    }
-
-    if (lockFormBtn) {
-      lockFormBtn.addEventListener('click', function() {
-        formLockOverlay.classList.remove('hidden');
-        lockFormBtn.classList.add('hidden');
-      });
-    }
-
-    function openTahsildarModal() {
-      document.getElementById('tahsildarAuthOverlay').classList.remove('hidden');
-    }
-    
-    function closeTahsildarModal() {
-      document.getElementById('tahsildarAuthOverlay').classList.add('hidden');
-    }
-
     function updateSubCategories() {
       const appType = document.getElementById('appType').value;
       const subContainer = document.getElementById('subCategoryContainer');
@@ -333,11 +196,21 @@
       }
     }
 
-    // ఫామ్ సబ్మిట్ & WhatsApp కి పంపే కోడ్
+    // ఫామ్ సబ్మిట్ చేసి WhatsApp కి పంపే కోడ్
     document.getElementById('dispatchForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
       const appType = document.getElementById('appType').value;
       const applicantName = document.getElementById('applicantName').value;
       const staffPhone = document.getElementById('staffPhone').value;
-      const staffName = docum
+      const staffName = document.getElementById('staffName').value;
+      const refNo = document.getElementById('refNo').value;
+
+      const message = `నమస్కారం ${staffName} గారు,%0A%0Aపెద్దవడుగూరు తహసీల్దార్ కార్యాలయం నుండి మీకు కొత్త అర్జీ కేటాయించబడింది.%0A%0A📌 అర్జీ రకం: ${appType}%0A🔢 రిఫరెన్స్ నం: ${refNo}%0A👤 అర్జిదారుడు: ${applicantName}%0A%0Aదయ పరిశీలించి తగు చర్యలు తీసుకోవాల్సిందిగా కోరడమైనది.`;
+      
+      const whatsappUrl = `https://wa.me/91${staffPhone}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+  </script>
+</body>
+</html>
