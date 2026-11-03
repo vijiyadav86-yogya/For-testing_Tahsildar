@@ -151,7 +151,6 @@
       </div>
 
       <form id="dispatchForm" class="p-4 sm:p-6 md:p-8 space-y-6">
-        <!-- ఇక్కడ డిసేబుల్ తీసేయబడింది, జావాస్క్రిప్ట్ ద్వారా కంట్రోల్ అవుతుంది -->
         <fieldset id="formFieldSet" class="space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
 
@@ -218,7 +217,7 @@
               </div>
             </div>
 
-            <!-- File Upload (పూర్తిగా ఓపెన్ అయ్యేలా సెట్ చేయబడింది) -->
+            <!-- File Upload -->
             <div>
               <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">అర్జీ కాపీ (PDF / JPG)</label>
               <div class="relative">
@@ -258,8 +257,8 @@
   <script>
     lucide.createIcons();
 
-    const storage = firebase.storage();
-    const db = firebase.firestore();
+    // Firebase Initialization Check (మీ ప్రాజెక్ట్ కి తగిన వివరాలు ఇక్కడ ఉండాలి)
+    // firebase.initializeApp({ ... });
 
     const unlockBtn = document.getElementById('unlockFormBtn');
     const securityModal = document.getElementById('securityActionModal');
@@ -268,7 +267,6 @@
     const lockFormBtn = document.getElementById('lockFormBtn');
     const formLockOverlay = document.getElementById('formLockOverlay');
 
-    // పేజీ లోడ్ అయిన వెంటనే ఫామ్ లాక్ మోడ్‌లో ఉండాలి (కానీ ఫైల్ అప్లోడ్ బటన్ టచ్ అయ్యేలా ఓవర్‌లే ట్రిగ్గర్)
     formLockOverlay.classList.remove('hidden');
     lockFormBtn.classList.add('hidden');
 
@@ -300,10 +298,9 @@
         e.preventDefault();
         const pinInput = document.getElementById('securityPinInput').value;
         
-        // డిఫాల్ట్ పిన్ 8688
         if (pinInput === "8688" || pinInput === "1234") {
           securityModal.classList.add('hidden');
-          formLockOverlay.classList.add('hidden'); // లాక్ ఓవర్‌లే పూర్తిగా మాయమవుతుంది, అప్పుడు ఫైల్ అప్లోడ్ & అన్నీ ఓపెನ್ అవుతాయి
+          formLockOverlay.classList.add('hidden'); 
           lockFormBtn.classList.remove('hidden');
           document.getElementById('securityPinInput').value = "";
           document.getElementById('securityPinError').classList.add('hidden');
@@ -338,6 +335,12 @@
       }
     }
 
-    // ఫామ్ సబ్మిట్ & Firebase Storage ఫైల్ అప్లోడ్ + WhatsApp లింక్
-    document.getElementById('dispatchForm').addEventListener('submit', async function(e) {
-      e.preventDe
+    // ఫామ్ సబ్మిట్ హ్యాండ్లర్ (సవరించబడింది)
+    document.getElementById('dispatchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const appType = document.getElementById('appType').value;
+      const applicantName = document.getElementById('applicantName').value;
+      const staffPhone = document.getElementById('staffPhone').value;
+      const staffName = document.getElementById('staffName').value;
+      const refNo = document.getEl
