@@ -742,8 +742,8 @@
         : `⚠️ *గమనిక:* నిర్ణీత గడువులోగా క్షేత్రస్థాయి విచారణ పూర్తి చేసి నివేదిక సమర్పించవలసిందిగా ఆదేశించడమైనది.`;
 
       let fileInfoText = "";
-      if (item.fileInfo && item.fileInfo.name) {
-        fileInfoText = `\n📄 *అర్జీ ఫైల్ పేరు:* ${item.fileInfo.name}\n🔗 *గమనిక:* పూర్తి డాక్యుమెంట్ (PDF) తహసీల్దార్ డాష్‌బోర్డ్‌లో 'చూడండి' బటన్ ద్వారా వీక్షించవచ్చు.`;
+      if (item.fileInfo && item.fileInfo.data) {
+        fileInfoText = `\n📄 *అర్జీ ఫైల్ పేరు:* ${item.fileInfo.name}\n🔗 *డౌన్‌లోడ్ లింక్ (PDF/Image):* ${item.fileInfo.data}`;
       }
 
       const fullAppType = item.subCategory ? `${item.appType} - ${item.subCategory}` : item.appType;
