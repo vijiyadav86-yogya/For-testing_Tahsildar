@@ -125,8 +125,9 @@
   <header class="bg-gradient-to-r from-teal-900 via-emerald-800 to-cyan-900 text-white shadow-xl sticky top-0 z-40 border-b border-emerald-500/20">
     <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
       <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3.5">
-        <div class="bg-white/10 p-2.5 rounded-2xl backdrop-blur-md shadow-inner border border-white/20">
-          <i data-lucide="landmark" class="w-7 h-7 text-amber-300"></i>
+        <!-- AP Emblem Image Replacement -->
+        <div class="bg-white/10 p-1.5 rounded-2xl backdrop-blur-md shadow-inner border border-white/20 flex items-center justify-center w-12 h-12">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Emblem_of_Andhra_Pradesh.svg/250px-Emblem_of_Andhra_Pradesh.svg.png?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail" alt="AP Emblem" class="w-9 h-9 object-contain">
         </div>
         <div>
           <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
@@ -520,10 +521,7 @@
     }
 
     function showTahsildarDashboard() {
-      // Hide the form section completely when Tahsildar Dashboard opens
       document.getElementById('orderIssueFormContainer').classList.add('hidden');
-      
-      // Show the Tahsildar dashboard section
       document.getElementById('tahsildarDashboardSection').classList.remove('hidden');
       renderDashboardAndTable();
       document.getElementById('tahsildarDashboardSection').scrollIntoView({ behavior: 'smooth' });
@@ -531,7 +529,6 @@
 
     function hideTahsildarDashboard() {
       document.getElementById('tahsildarDashboardSection').classList.add('hidden');
-      // Show the form section back when logging out of dashboard
       document.getElementById('orderIssueFormContainer').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
