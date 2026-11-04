@@ -153,8 +153,8 @@
 
   <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
 
-    <!-- Order Issue Form -->
-    <div class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
+    <!-- Order Issue Form (Initially Hidden when Tahsildar Dashboard opens) -->
+    <div id="orderIssueFormContainer" class="glass-card rounded-3xl shadow-lg border border-slate-200/90 overflow-hidden relative">
       
       <!-- Lock Overlay -->
       <div id="formLockOverlay" class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center p-4">
@@ -435,7 +435,7 @@
       initFirebaseAndListen();
     });
 
-    // Sub-category logic based on user request
+    // Sub-category logic
     function updateSubCategories() {
       const appType = document.getElementById('appType').value;
       const subContainer = document.getElementById('subCategoryContainer');
@@ -520,6 +520,10 @@
     }
 
     function showTahsildarDashboard() {
+      // Hide the form section completely when Tahsildar Dashboard opens
+      document.getElementById('orderIssueFormContainer').classList.add('hidden');
+      
+      // Show the Tahsildar dashboard section
       document.getElementById('tahsildarDashboardSection').classList.remove('hidden');
       renderDashboardAndTable();
       document.getElementById('tahsildarDashboardSection').scrollIntoView({ behavior: 'smooth' });
@@ -527,6 +531,8 @@
 
     function hideTahsildarDashboard() {
       document.getElementById('tahsildarDashboardSection').classList.add('hidden');
+      // Show the form section back when logging out of dashboard
+      document.getElementById('orderIssueFormContainer').classList.remove('hidden');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1007,7 +1013,7 @@
         const reminderText = (remCount > 0 && r.lastReminderAt) 
           ? `<div class="flex flex-col items-end gap-0.5 mt-1">
                <span class="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-black text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
-                 <i data-lucide="bell" class="w-3 h-3 text-rose-600"></i> రిమైండር: ${remCount}వ సారి
+                 <i data-lucide="bell" class="w-3 h-3 text-rose-600"></i> రిమైండర్: ${remCount}వ సారి
                </span>
                <span class="text-[9px] sm:text-[10px] text-slate-500 font-medium">చివరిగా: ${formatReadableTime(r.lastReminderAt)}</span>
              </div>`
