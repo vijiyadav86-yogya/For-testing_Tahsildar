@@ -274,11 +274,16 @@
               <div>
                 <div class="flex items-center justify-between mb-2">
                   <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">సిబ్బంది పేరు (Staff / VRO)</label>
-                  <button type="button" onclick="pickPhoneContact()" class="text-xs text-teal-700 hover:text-teal-900 flex items-center gap-1 font-bold">
-                    <i data-lucide="contact-2" class="w-3.5 h-3.5"></i> కాంటాక్ట్ ఎంచుకో
-                  </button>
+                  <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">లిస్ట్ నుండి ఎంచుకోండి 👇</span>
                 </div>
-                <input type="text" id="staffName" placeholder="సిబ్బంది పేరు నమోదు చేయండి" required class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm">
+                <!-- Excel లిస్ట్ తో కూడిన డ్రాప్‌డౌన్ -->
+                <div class="relative">
+                  <select id="staffSelectDropdown" onchange="fillStaffDetails(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm appearance-none">
+                    <option value="">-- ఉద్యోగిని ఎంచుకోండి --</option>
+                  </select>
+                  <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3.5 top-4 pointer-events-none"></i>
+                </div>
+                <input type="hidden" id="staffName" required>
               </div>
 
               <div>
@@ -459,6 +464,55 @@
     const TELEGRAM_BOT_TOKEN = "7123456789:AAFn_MEE_BOT_TOKEN_IKKADA_PETTANDI";
     const TELEGRAM_CHAT_ID = "MEE_CHAT_ID_IKKADA_PETTANDI";
 
+    // Employee Bank List from Excel
+    const employeeDirectory = [
+      { name: "P.Usharani", phone: "9493188835", designation: "Tahsildar" },
+      { name: "M.Raj Kumar", phone: "8919840884", designation: "Dy.Tahsildar" },
+      { name: "G.Jayamma", phone: "7674045890", designation: "Re-Survey Dy.Tahsildar" },
+      { name: "V.Obilesu", phone: "9866924191", designation: "Senior Assistant" },
+      { name: "S.Humera Naaz", phone: "8367488193", designation: "Mandal Revenue Inspector" },
+      { name: "N.Prasad", phone: "8688221345", designation: "Mandal Surveyor" },
+      { name: "P.Suryanarayana Reddy", phone: "9441034710", designation: "Junior Assistant" },
+      { name: "T.N.Udayaraju", phone: "7013735793", designation: "Junior Assistant" },
+      { name: "A.Lakshminarayana", phone: "8374582573", designation: "Attender" },
+      { name: "K.Jayasudha", phone: "9000074308", designation: "Attender" },
+      { name: "Patil Rameswara Reddy", phone: "9959470242", designation: "APPECHERLA" },
+      { name: "Chennavaram Chandra sekhar", phone: "9502190913", designation: "BURNAKUNTA" },
+      { name: "Bonela Ramakrishna", phone: "9908159843", designation: "CHINNAVADUGUR" },
+      { name: "Talari Prabhakar", phone: "846533819", designation: "CHITRACHEDU" },
+      { name: "Manchala Ramesh", phone: "7702168296", designation: "CHITTURU" },
+      { name: "Muram Venkata Rajesh", phone: "9177291413", designation: "DIMMAGUDI / PEDDAVADUGUR1" },
+      { name: "Devana Sudarshan Reddy", phone: "9963535755", designation: "KRISTIPADU1" },
+      { name: "Kodimila Ramanjineyulu", phone: "9908159843", designation: "KRISTIPADU2" },
+      { name: "Talari Sunkanna", phone: "9110501071", designation: "LAKSHUMPALLI / MEDIMAKULAPALLI" },
+      { name: "Akshinthala Anjineyulu", phone: "9701848726", designation: "MIDUTHUR" },
+      { name: "Boya Pedda Lingamaiah", phone: "8106726737", designation: "RAVULUDIKI" },
+      { name: "Patil Lakshmipathi Reddy", phone: "9963535775", designation: "VIRUPAPURAMU" }
+    ];
+
+    function populateEmployeeDropdown() {
+      const dropdown = document.getElementById('staffSelectDropdown');
+      if (!dropdown) return;
+      dropdown.innerHTML = '<option value="">-- ఉద్యోగిని ఎంచుకోండి --</option>';
+      employeeDirectory.forEach(emp => {
+        const opt = document.createElement('option');
+        opt.value = emp.name;
+        opt.textContent = `${emp.name} (${emp.designation})`;
+        dropdown.appendChild(opt);
+      });
+    }
+
+    function fillStaffDetails(selectedName) {
+      const found = employeeDirectory.find(e => e.name === selectedName);
+      if (found) {
+        document.getElementById('staffName').value = found.name;
+        document.getElementById('staffPhone').value = found.phone;
+      } else {
+        document.getElementById('staffName').value = '';
+        document.getElementById('staffPhone').value = '';
+      }
+    }
+
     function getStoredPin(key, defaultVal) {
       return localStorage.getItem(key) || defaultVal;
     }
@@ -473,6 +527,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       applyPresetDays(3);
+      populateEmployeeDropdown();
       initFirebaseAndListen();
     });
 
@@ -665,6 +720,8 @@
       document.getElementById('subCategory').value = item.subCategory || '';
       document.getElementById('applicantName').value = item.applicantName || '';
       document.getElementById('refNo').value = item.refNo || '';
+      
+      document.getElementById('staffSelectDropdown').value = item.staffName || '';
       document.getElementById('staffName').value = item.staffName || '';
       document.getElementById('staffPhone').value = item.staffPhone || '';
       document.getElementById('dueDate').value = item.dueDate || '';
@@ -782,30 +839,6 @@
         document.getElementById('dueDate').value = addDaysToDateTime(val);
       } else {
         applyPresetDays(document.getElementById('presetDays').value);
-      }
-    }
-
-    async function pickPhoneContact() {
-      if ('contacts' in navigator && 'ContactsManager' in window) {
-        try {
-          const props = ['name', 'tel'];
-          const contacts = await navigator.contacts.select(props, { multiple: false });
-          if (contacts.length > 0) {
-            const contact = contacts[0];
-            if (contact.name && contact.name[0]) {
-              document.getElementById('staffName').value = contact.name[0];
-            }
-            if (contact.tel && contact.tel[0]) {
-              let clean = contact.tel[0].replace(/\D/g, '');
-              if (clean.length > 10) clean = clean.slice(-10);
-              document.getElementById('staffPhone').value = clean;
-            }
-          }
-        } catch (err) {
-          alert('కాంటాక్ట్ ఎంపిక విఫలమైంది: ' + err.message);
-        }
-      } else {
-        alert('ఈ బ్రౌజర్‌లో కాంటాక్ట్ పికర్ సపోర్ట్ లేదు. ఫోన్ నంబర్‌ను నేరుగా టైప్ చేయండి.');
       }
     }
 
