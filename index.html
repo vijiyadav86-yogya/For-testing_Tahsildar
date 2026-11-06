@@ -35,14 +35,14 @@
       }
     }
 
-    /* Clean Illustration Modal Styles */
+    /* Smooth Pop-up Animation Styles */
     .custom-modal-overlay {
       background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(12px);
-      animation: fadeInOverlay 0.4s ease forwards;
+      animation: fadeInOverlay 0.3s ease forwards;
     }
     .custom-modal-card {
-      animation: slideUpModal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: slideUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
     }
     @keyframes fadeInOverlay {
@@ -50,74 +50,45 @@
       to { opacity: 1; }
     }
     @keyframes slideUpModal {
-      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      from { opacity: 0; transform: translateY(25px) scale(0.96); }
       to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    /* Character peek animation */
-    @keyframes peekIn {
-      0% { transform: translateX(-30px); opacity: 0; }
-      100% { transform: translateX(0); opacity: 1; }
-    }
-    .peek-animation {
-      animation: peekIn 0.8s ease-out forwards;
     }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-20">
 
-  <!-- Tahsildar Login Window with Clean Illustrated Theme -->
+  <!-- Tahsildar Login Window with Animated Look -->
   <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white rounded-[32px] max-w-xl w-full overflow-hidden border border-emerald-100 relative z-10 flex flex-col md:flex-row">
+    <div class="custom-modal-card bg-white rounded-[32px] max-w-md w-full p-7 text-center border border-emerald-100 relative z-10">
+      <div class="w-16 h-16 bg-gradient-to-tr from-emerald-600 to-teal-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-600/30">
+        <i data-lucide="shield-check" class="w-8 h-8"></i>
+      </div>
+      <h2 class="text-xl font-black text-slate-900 mb-1">తహసీల్దార్ వారి లాగిన్</h2>
+      <p class="text-xs text-slate-500 mb-6 font-medium">అధికారిక పర్యవేక్షణ & ఫైళ్ల సమీక్ష</p>
       
-      <!-- Left side illustration / Green Brand Panel -->
-      <div class="bg-emerald-800 p-8 md:w-5/12 flex flex-col justify-between text-white relative overflow-hidden">
-        <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-700/50 rounded-full blur-2xl"></div>
-        <div class="relative z-10 peek-animation">
-          <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-white/20">
-            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-300"></i>
+      <form id="tahsildarAuthForm" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-center">రహస్య పిన్ (PIN)</label>
+          <div class="relative">
+            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
+              class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 pl-11 text-center text-xl tracking-widest text-slate-900 font-black outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition shadow-sm">
           </div>
-          <h3 class="text-xl font-black tracking-tight mb-2">స్వాగతం, అధికారి!</h3>
-          <p class="text-xs text-emerald-100 leading-relaxed font-medium">పెద్దవడుగూరు మండలం రెవెన్యూ పర్యవేక్షణ సురక్షిత డిజిటల్ వేదిక.</p>
+          <p id="tahsildarAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">సరైన పిన్ నమోదు చేయండి!</p>
         </div>
-        <div class="relative z-10 mt-8 text-[11px] text-emerald-200/80 font-mono">
-          Secure Revenue Portal v2.0
+        <div class="flex gap-2.5 pt-2">
+          <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
+          <button type="submit" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-2xl shadow-md shadow-emerald-700/20 transition flex items-center justify-center gap-1.5 active:scale-95">
+            <i data-lucide="key" class="w-4 h-4"></i> లాగిన్
+          </button>
         </div>
-      </div>
-
-      <!-- Right side form container -->
-      <div class="p-6 md:p-8 md:w-7/12 flex flex-col justify-center">
-        <div class="flex justify-between items-start mb-4">
-          <div>
-            <h2 class="text-xl font-extrabold text-slate-900">లాగిన్</h2>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">దయచేసి మీ రహస్య పిన్ నమోదు చేయండి</p>
-          </div>
-        </div>
-        
-        <form id="tahsildarAuthForm" class="space-y-4">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">రహస్య పిన్ (PIN)</label>
-            <div class="relative">
-              <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-              <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
-                class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 pl-11 text-center text-xl tracking-widest text-slate-900 font-black outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition shadow-sm">
-            </div>
-            <p id="tahsildarAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">సరైన పిన్ నమోదు చేయండి!</p>
-          </div>
-          <div class="flex gap-2.5 pt-2">
-            <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
-            <button type="submit" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-2xl shadow-md shadow-emerald-700/20 transition flex items-center justify-center gap-1.5 active:scale-95">
-              <i data-lucide="key" class="w-4 h-4"></i> లాగిన్
-            </button>
-          </div>
-        </form>
-      </div>
-
+      </form>
     </div>
   </div>
 
   <!-- Security Action PIN Modal -->
-  <div id="securityActionModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center border-2 border-rose-400">
+  <div id="securityActionModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
+    <div class="custom-modal-card bg-white rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-rose-400">
       <div class="w-14 h-14 bg-rose-100 text-rose-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">
         <i data-lucide="lock-keyhole" class="w-7 h-7"></i>
       </div>
@@ -139,8 +110,8 @@
   </div>
 
   <!-- Change Password Modal -->
-  <div id="changePasswordModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 text-center border-2 border-cyan-400">
+  <div id="changePasswordModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
+    <div class="custom-modal-card bg-white rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-cyan-400">
       <div class="w-14 h-14 bg-cyan-100 text-cyan-800 rounded-2xl flex items-center justify-center mx-auto mb-3">
         <i data-lucide="key-round" class="w-7 h-7"></i>
       </div>
@@ -216,7 +187,7 @@
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
           </div>
           <h3 class="text-base font-extrabold text-slate-900">తహసిల్దార్ పెద్దవడుగూరు మండలానికి స్వాగతం</h3>
-          <p class="text-xs text-slate-500 font-medium">కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
+          <p class="text-xs text-slate-500 font-medium"> కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
           <button onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
             <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
           </button>
