@@ -9,7 +9,7 @@
       navigator.serviceWorker.register('sw.js');
     }
   </script>
-  <title>తహసీల్దార్ వారి  కార్యాలయం - పెద్దవడుగూరు మండలం స్వాగతం </title>
+  <title>తహసీల్దార్ వారి కార్యాలయం - పెద్దవడుగూరు మండలం స్వాగతం</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -35,56 +35,83 @@
       }
     }
 
-    /* Animated Background & Glassmorphism Modal Styles */
-    .animated-bg-modal {
-      position: relative;
-      overflow: hidden;
-      background: rgba(15, 23, 42, 0.85);
-      backdrop-filter: blur(20px);
+    /* Clean Illustration Modal Styles */
+    .custom-modal-overlay {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      animation: fadeInOverlay 0.4s ease forwards;
     }
-    .bg-circle {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(70px);
-      z-index: 0;
+    .custom-modal-card {
+      animation: slideUpModal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
     }
-    .bg1 { width: 250px; height: 250px; background: #d97706; top: 10%; left: 10%; animation: floatBg 8s infinite alternate; }
-    .bg2 { width: 300px; height: 300px; background: #059669; bottom: 10%; right: 10%; animation: floatBg 10s infinite alternate-reverse; }
-    
-    @keyframes floatBg {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(20px) scale(1.1); }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUpModal {
+      from { opacity: 0; transform: translateY(30px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    /* Character peek animation */
+    @keyframes peekIn {
+      0% { transform: translateX(-30px); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+    .peek-animation {
+      animation: peekIn 0.8s ease-out forwards;
     }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-20">
 
-  <!-- Tahsildar Login Window with Animated Look -->
-  <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 animated-bg-modal hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900/60 backdrop-blur-2xl rounded-3xl shadow-2xl max-w-sm w-full p-6 sm:p-7 text-center border border-amber-400/40 relative z-10 transition-all duration-500 transform scale-100">
-      <div class="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-amber-500/30 animate-pulse">
-        <i data-lucide="shield-check" class="w-7 h-7 sm:w-8 sm:h-8"></i>
-      </div>
-      <h2 class="text-lg sm:text-xl font-extrabold text-white mb-1">తహసీల్దార్ వారి లాగిన్</h2>
-      <p class="text-xs text-amber-200/80 mb-6 font-medium">అధికారిక పర్యవేక్షణ & ఫైళ్ల సమీక్ష</p>
+  <!-- Tahsildar Login Window with Clean Illustrated Theme -->
+  <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
+    <div class="custom-modal-card bg-white rounded-[32px] max-w-xl w-full overflow-hidden border border-emerald-100 relative z-10 flex flex-col md:flex-row">
       
-      <form id="tahsildarAuthForm" class="space-y-4">
-        <div>
-          <label class="block text-xs font-bold text-amber-300 uppercase tracking-wider mb-2 text-center">రహస్య పిన్ (PIN)</label>
-          <div class="relative">
-            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
-              class="w-full bg-slate-800/80 border border-slate-700 rounded-2xl px-4 py-3 pl-11 text-center text-xl tracking-widest text-white font-black outline-none focus:ring-2 focus:ring-amber-500 focus:bg-slate-800 transition shadow-inner">
+      <!-- Left side illustration / Green Brand Panel -->
+      <div class="bg-emerald-800 p-8 md:w-5/12 flex flex-col justify-between text-white relative overflow-hidden">
+        <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-700/50 rounded-full blur-2xl"></div>
+        <div class="relative z-10 peek-animation">
+          <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-white/20">
+            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-300"></i>
           </div>
-          <p id="tahsildarAuthError" class="text-xs text-rose-400 font-bold mt-2 hidden text-center">సరైన పిన్ నమోదు చేయండి!</p>
+          <h3 class="text-xl font-black tracking-tight mb-2">స్వాగతం, అధికారి!</h3>
+          <p class="text-xs text-emerald-100 leading-relaxed font-medium">పెద్దవడుగూరు మండలం రెవెన్యూ పర్యవేక్షణ సురక్షిత డిజిటల్ వేదిక.</p>
         </div>
-        <div class="flex gap-2 pt-2">
-          <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold py-3 rounded-2xl transition border border-slate-700">రద్దు</button>
-          <button type="submit" class="w-1/2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold text-xs py-3 rounded-2xl shadow-lg transition flex items-center justify-center gap-1.5 active:scale-95">
-            <i data-lucide="key" class="w-4 h-4"></i> లాగిన్
-          </button>
+        <div class="relative z-10 mt-8 text-[11px] text-emerald-200/80 font-mono">
+          Secure Revenue Portal v2.0
         </div>
-      </form>
+      </div>
+
+      <!-- Right side form container -->
+      <div class="p-6 md:p-8 md:w-7/12 flex flex-col justify-center">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h2 class="text-xl font-extrabold text-slate-900">లాగిన్</h2>
+            <p class="text-xs text-slate-500 font-medium mt-0.5">దయచేసి మీ రహస్య పిన్ నమోదు చేయండి</p>
+          </div>
+        </div>
+        
+        <form id="tahsildarAuthForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">రహస్య పిన్ (PIN)</label>
+            <div class="relative">
+              <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+              <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
+                class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 pl-11 text-center text-xl tracking-widest text-slate-900 font-black outline-none focus:ring-2 focus:ring-emerald-600 focus:bg-white transition shadow-sm">
+            </div>
+            <p id="tahsildarAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">సరైన పిన్ నమోదు చేయండి!</p>
+          </div>
+          <div class="flex gap-2.5 pt-2">
+            <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition">రద్దు</button>
+            <button type="submit" class="w-1/2 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs py-3 rounded-2xl shadow-md shadow-emerald-700/20 transition flex items-center justify-center gap-1.5 active:scale-95">
+              <i data-lucide="key" class="w-4 h-4"></i> లాగిన్
+            </button>
+          </div>
+        </form>
+      </div>
+
     </div>
   </div>
 
@@ -188,8 +215,8 @@
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
           </div>
-          <h3 class="text-base font-extrabold text-slate-900">తహసిల్దార్ వారి కార్యాలయం పెద్దవడుగూరు మండలానికి స్వాగతం</h3>
-          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
+          <h3 class="text-base font-extrabold text-slate-900">తహసిల్దార్ పెద్దవడుగూరు మండలానికి స్వాగతం</h3>
+          <p class="text-xs text-slate-500 font-medium">కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
           <button onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
             <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
           </button>
@@ -493,19 +520,7 @@
     }
 
     function openTahsildarModal() {
-      const overlay = document.getElementById('tahsildarAuthOverlay');
-      overlay.classList.remove('hidden');
-      
-      // Add animated background floating elements dynamically if not present
-      if (!overlay.querySelector('.bg1')) {
-        const bg1 = document.createElement('div');
-        bg1.className = 'bg-circle bg1';
-        const bg2 = document.createElement('div');
-        bg2.className = 'bg-circle bg2';
-        overlay.prepend(bg2);
-        overlay.prepend(bg1);
-      }
-
+      document.getElementById('tahsildarAuthOverlay').classList.remove('hidden');
       document.getElementById('tahsildarPinInput').value = '';
       document.getElementById('tahsildarAuthError').classList.add('hidden');
       document.getElementById('tahsildarPinInput').focus();
