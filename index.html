@@ -35,15 +35,19 @@
       }
     }
 
-    /* Smooth Pop-up Animation Styles */
+    /* Background Photo & Overlay Animation Styles */
     .custom-modal-overlay {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      animation: fadeInOverlay 0.3s ease forwards;
+      /* ఇక్కడ ఇమేజ్ లింక్ మార్చుకోవచ్చు */
+      background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.85)), 
+                  url('https://img.staticmb.com/mbcontent/images/crop/uploads/ver2/XIwvQlc61t8ZIpanz4mAnzU5-xEakaVYgSnGhj8lv6IHjA/land-tax-kerala-online_0_1200.jpg');
+      background-size: cover;
+      background-position: center;
+      backdrop-filter: blur(8px);
+      animation: fadeInOverlay 0.4s ease forwards;
     }
     .custom-modal-card {
       animation: slideUpModal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5);
     }
     @keyframes fadeInOverlay {
       from { opacity: 0; }
@@ -57,14 +61,14 @@
 </head>
 <body class="bg-slate-100 text-slate-800 min-h-screen pb-20">
 
-  <!-- Tahsildar Login Window with Animated Look -->
+  <!-- Tahsildar Login Window with Background Photo -->
   <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white rounded-[32px] max-w-md w-full p-7 text-center border border-emerald-100 relative z-10">
+    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[32px] max-w-md w-full p-7 text-center border border-emerald-200 relative z-10">
       <div class="w-16 h-16 bg-gradient-to-tr from-emerald-600 to-teal-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-emerald-600/30">
         <i data-lucide="shield-check" class="w-8 h-8"></i>
       </div>
       <h2 class="text-xl font-black text-slate-900 mb-1">తహసీల్దార్ వారి లాగిన్</h2>
-      <p class="text-xs text-slate-500 mb-6 font-medium">అధికారిక పర్యవేక్షణ & ఫైళ్ల సమీక్ష</p>
+      <p class="text-xs text-slate-500 mb-6 font-medium">పెద్దవడుగూరు మండలం • అధికారిక పర్యవేక్షణ</p>
       
       <form id="tahsildarAuthForm" class="space-y-4 text-left">
         <div>
@@ -88,7 +92,7 @@
 
   <!-- Security Action PIN Modal -->
   <div id="securityActionModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-rose-400">
+    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-rose-400">
       <div class="w-14 h-14 bg-rose-100 text-rose-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">
         <i data-lucide="lock-keyhole" class="w-7 h-7"></i>
       </div>
@@ -111,7 +115,7 @@
 
   <!-- Change Password Modal -->
   <div id="changePasswordModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-cyan-400">
+    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[32px] max-w-sm w-full p-6 text-center border-2 border-cyan-400">
       <div class="w-14 h-14 bg-cyan-100 text-cyan-800 rounded-2xl flex items-center justify-center mx-auto mb-3">
         <i data-lucide="key-round" class="w-7 h-7"></i>
       </div>
@@ -186,8 +190,8 @@
           <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center mx-auto">
             <i data-lucide="shield-alert" class="w-6 h-6"></i>
           </div>
-          <h3 class="text-base font-extrabold text-slate-900">తహసిల్దార్ పెద్దవడుగూరు మండలానికి స్వాగతం</h3>
-          <p class="text-xs text-slate-500 font-medium"> కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
+          <h3 class="text-base font-extrabold text-slate-900">ఫారమ్ లాక్ చేయబడింది</h3>
+          <p class="text-xs text-slate-500 font-medium">ఎవరూ సమాచారాన్ని మార్చకుండా ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశం నమోదుకు పిన్ నమోదు చేయండి.</p>
           <button onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-teal-600 to-emerald-700 hover:from-teal-700 hover:to-emerald-800 text-white font-bold text-xs px-6 py-3 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
             <i data-lucide="unlock" class="w-4 h-4"></i> లాక్ తెరవండి
           </button>
