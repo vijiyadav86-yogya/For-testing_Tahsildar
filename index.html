@@ -17,6 +17,7 @@
   
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -37,7 +38,6 @@
 
     /* Background Photo & Overlay Animation Styles */
     .custom-modal-overlay {
-      /* ఇక్కడ ఇమేజ్ లింక్ మార్చుకోవచ్చు */
       background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.85)), 
                   url('https://ananthapuramu.in/images/tadipatri_temple.png');
       background-size: cover;
@@ -783,13 +783,22 @@
       window.open(url, '_blank');
     }
 
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve({ name: file.name, type: file.type, data: reader.result });
-        reader.onerror = error => reject(error);
-      });
+    // Firebase Storage upload function
+    async function uploadFileToStorage(file) {
+      try {
+        const storageRef = firebase.storage().ref();
+        const fileRef = storageRef.child(`notices/${Date.now()}_${file.name}`);
+        const snapshot = await fileRef.put(file);
+        const downloadURL = await snapshot.ref.getDownloadURL();
+        return {
+          name: file.name,
+          type: file.type,
+          data: downloadURL
+        };
+      } catch (err) {
+        console.error("Storage Upload Error:", err);
+        throw err;
+      }
     }
 
     async function getFormData() {
@@ -810,11 +819,11 @@
       let fileData = null;
       if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        if (file.size > 950000) {
-          alert("ఫైల్ సైజు 1MB కంటే తక్కువగా ఉండాలి.");
+        if (file.size > 10000000) { // 10MB limit for storage
+          alert("ఫైల్ సైజు 10MB కంటే తక్కువగా ఉండాలి.");
           return null;
         }
-        fileData = await fileToBase64(file);
+        fileData = await uploadFileToStorage(file);
       }
 
       const now = new Date().toISOString();
@@ -1143,12 +1152,7 @@
         alert("డాక్యుమెంట్ అందుబాటులో లేదు.");
         return;
       }
-      const win = window.open();
-      if (fileInfo.type && fileInfo.type.includes('pdf')) {
-        win.document.write(`<title>${fileInfo.name}</title><iframe src="${fileInfo.data}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
-      } else {
-        win.document.write(`<title>${fileInfo.name}</title><body style="margin:0; background:#0f172a; display:flex; align-items:center; justify-content:center; height:100vh;"><img src="${fileInfo.data}" style="max-width:92%; max-height:92%; margin:auto; border-radius:14px; box-shadow:0 15px 35px rgba(0,0,0,0.6);" /></body>`);
-      }
+      window.open(fileInfo.data, '_blank');
     }
 
     function exportToCSV() {
