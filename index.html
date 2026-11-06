@@ -325,7 +325,7 @@
 
           </div>
 
-          <!-- Edit Mode Action Buttons Container (Initially Hidden / Shown during edit) -->
+          <!-- Edit Mode Action Buttons Container -->
           <div id="editActionButtons" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
             <button type="button" onclick="submitEditedRecord(false)" class="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
               <i data-lucide="save" class="w-4 h-4"></i> కేవలం మార్పులను సేవ్ చేయి (Only Save)
@@ -671,7 +671,6 @@
 
       document.getElementById('formTitleHeading').innerText = "అర్జీ / ఆదేశాల వివరాల సవరణ (Edit Record)";
       
-      // Toggle buttons for Edit Mode
       document.getElementById('editActionButtons').classList.remove('hidden');
       document.getElementById('normalActionButtons').classList.add('hidden');
       document.getElementById('cancelEditBtn').classList.remove('hidden');
@@ -901,11 +900,10 @@
       };
     }
 
-    // Normal Form Submit (New Record)
     document.getElementById('dispatchForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const editingDocId = document.getElementById('editingDocId').value;
-      if (editingDocId) return; // Handled by separate buttons in edit mode
+      if (editingDocId) return;
 
       const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
@@ -935,7 +933,6 @@
       }
     });
 
-    // Function to handle Edited Record submission (with choice: Resend vs Only Save)
     async function submitEditedRecord(shouldResendWhatsApp) {
       const editingDocId = document.getElementById('editingDocId').value;
       if (!editingDocId) return;
