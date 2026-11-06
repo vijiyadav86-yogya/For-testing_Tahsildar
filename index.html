@@ -276,14 +276,14 @@
                   <label class="text-xs font-bold text-slate-700 uppercase tracking-wider">సిబ్బంది పేరు (Staff / VRO)</label>
                   <span class="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md">లిస్ట్ నుండి ఎంచుకోండి 👇</span>
                 </div>
-                <!-- Excel లిస్ట్ తో కూడిన డ్రాప్‌డౌన్ -->
+                <!-- Excel List Dropdown -->
                 <div class="relative">
                   <select id="staffSelectDropdown" onchange="fillStaffDetails(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition font-medium shadow-sm appearance-none">
                     <option value="">-- ఉద్యోగిని ఎంచుకోండి --</option>
                   </select>
                   <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3.5 top-4 pointer-events-none"></i>
                 </div>
-                <input type="hidden" id="staffName" required>
+                <input type="text" id="staffName" required class="hidden">
               </div>
 
               <div>
@@ -890,6 +890,12 @@
     }
 
     async function getFormData(existingFileInfo = null) {
+      // Dropdown nunchi staffName ni secure ga set chestunnamu
+      const dropdownVal = document.getElementById('staffSelectDropdown').value;
+      if (dropdownVal) {
+        document.getElementById('staffName').value = dropdownVal;
+      }
+
       const appType = document.getElementById('appType').value;
       const subCategory = document.getElementById('subCategory').value;
       const applicantName = document.getElementById('applicantName').value.trim();
@@ -1303,3 +1309,4 @@
   </script>
 </body>
 </html>
+```
