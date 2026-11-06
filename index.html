@@ -325,7 +325,18 @@
 
           </div>
 
-          <div class="flex justify-end pt-4 border-t border-slate-100">
+          <!-- Edit Mode Action Buttons Container (Initially Hidden / Shown during edit) -->
+          <div id="editActionButtons" class="hidden grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+            <button type="button" onclick="submitEditedRecord(false)" class="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-900 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-md transition active:scale-95 cursor-pointer">
+              <i data-lucide="save" class="w-4 h-4"></i> కేవలం మార్పులను సేవ్ చేయి (Only Save)
+            </button>
+            <button type="button" onclick="submitEditedRecord(true)" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white text-xs sm:text-sm font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-emerald-700/20 transition active:scale-95 cursor-pointer">
+              <i data-lucide="send" class="w-4 h-4"></i> రీసెంట్ & వాట్సాప్ పంపు (Resend & WhatsApp)
+            </button>
+          </div>
+
+          <!-- Normal New Record Button -->
+          <div id="normalActionButtons" class="flex justify-end pt-4 border-t border-slate-100">
             <button type="submit" id="submitBtn" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white text-xs sm:text-sm font-bold px-6 sm:px-8 py-3.5 rounded-2xl shadow-lg shadow-emerald-700/20 active:scale-95 transition cursor-pointer">
               <i data-lucide="send" class="w-4 h-4"></i> WhatsApp లో ఆదేశాలు పంపు & క్లౌడ్‌లో సేవ్ చేయి
             </button>
@@ -465,7 +476,6 @@
       initFirebaseAndListen();
     });
 
-    // Sub-category logic
     function updateSubCategories() {
       const appType = document.getElementById('appType').value;
       const subContainer = document.getElementById('subCategoryContainer');
@@ -660,7 +670,10 @@
       document.getElementById('dueDate').value = item.dueDate || '';
 
       document.getElementById('formTitleHeading').innerText = "అర్జీ / ఆదేశాల వివరాల సవరణ (Edit Record)";
-      document.getElementById('submitBtn').innerText = "మార్పులను అప్‌డేట్ చేయి & సేవ్ చేయి";
+      
+      // Toggle buttons for Edit Mode
+      document.getElementById('editActionButtons').classList.remove('hidden');
+      document.getElementById('normalActionButtons').classList.add('hidden');
       document.getElementById('cancelEditBtn').classList.remove('hidden');
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -672,7 +685,9 @@
       document.getElementById('subCategoryContainer').classList.add('hidden');
       applyPresetDays(3);
       document.getElementById('formTitleHeading').innerText = "సిబ్బందికి ఆదేశాల జారీ & విచారణ కేటాయింపు";
-      document.getElementById('submitBtn').innerText = "WhatsApp లో ఆదేశాలు పంపు & క్లౌడ్‌లో సేవ్ చేయి";
+      
+      document.getElementById('editActionButtons').classList.add('hidden');
+      document.getElementById('normalActionButtons').classList.remove('hidden');
       document.getElementById('cancelEditBtn').classList.add('hidden');
       lockDispatchForm();
     }
@@ -886,43 +901,31 @@
       };
     }
 
+    // Normal Form Submit (New Record)
     document.getElementById('dispatchForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      
-      const submitBtn = document.getElementById('submitBtn');
       const editingDocId = document.getElementById('editingDocId').value;
+      if (editingDocId) return; // Handled by separate buttons in edit mode
+
+      const submitBtn = document.getElementById('submitBtn');
       submitBtn.disabled = true;
       submitBtn.innerText = "సేవ్ అవుతోంది...";
 
-      let existingFile = null;
-      if (editingDocId) {
-        const existingRecord = records.find(r => r.docId === editingDocId);
-        if (existingRecord) existingFile = existingRecord.fileInfo;
-      }
-
-      const item = await getFormData(existingFile);
+      const item = await getFormData();
       if (!item) {
         submitBtn.disabled = false;
-        submitBtn.innerText = editingDocId ? "మార్పులను అప్‌డేట్ చేయి & సేవ్ చేయి" : "WhatsApp లో ఆదేశాలు పంపు & క్లౌడ్‌లో సేవ్ చేయి";
+        submitBtn.innerText = "WhatsApp లో ఆదేశాలు పంపు & క్లౌడ్‌లో సేవ్ చేయి";
         return;
       }
 
       try {
-        if (editingDocId) {
-          // Update existing record
-          await db.collection("notices").doc(editingDocId).update(item);
-          alert('రికార్డు విజయవంతంగా సవరించబడింది (Updated)!');
-          cancelEditingRecord();
-        } else {
-          // Add new record
-          await db.collection("notices").add(item);
-          dispatchToWhatsApp(item.staffPhone, generateMessageText(item, false));
-          document.getElementById('dispatchForm').reset();
-          document.getElementById('subCategoryContainer').classList.add('hidden');
-          applyPresetDays(3);
-          lockDispatchForm();
-          alert('ఆదేశాలు విజయవంతంగా జారీ చేయబడ్డాయి & క్లౌడ్‌లో భద్రపరచబడ్డాయి.');
-        }
+        await db.collection("notices").add(item);
+        dispatchToWhatsApp(item.staffPhone, generateMessageText(item, false));
+        document.getElementById('dispatchForm').reset();
+        document.getElementById('subCategoryContainer').classList.add('hidden');
+        applyPresetDays(3);
+        lockDispatchForm();
+        alert('ఆదేశాలు విజయవంతంగా జారీ చేయబడ్డాయి & క్లౌడ్‌లో భద్రపరచబడ్డాయి.');
       } catch (err) {
         console.error("Save Error:", err);
         alert("క్లౌడ్‌లో సేవ్ చేయడం విఫలమైంది: " + err.message);
@@ -931,6 +934,35 @@
         submitBtn.innerText = "WhatsApp లో ఆదేశాలు పంపు & క్లౌడ్‌లో సేవ్ చేయి";
       }
     });
+
+    // Function to handle Edited Record submission (with choice: Resend vs Only Save)
+    async function submitEditedRecord(shouldResendWhatsApp) {
+      const editingDocId = document.getElementById('editingDocId').value;
+      if (!editingDocId) return;
+
+      let existingFile = null;
+      const existingRecord = records.find(r => r.docId === editingDocId);
+      if (existingRecord) existingFile = existingRecord.fileInfo;
+
+      const item = await getFormData(existingFile);
+      if (!item) return;
+
+      try {
+        await db.collection("notices").doc(editingDocId).update(item);
+        
+        if (shouldResendWhatsApp) {
+          dispatchToWhatsApp(item.staffPhone, generateMessageText(item, false));
+          alert('రికార్డు విజయవంతంగా అప్‌డేట్ చేయబడింది మరియు వాట్సాప్ పంపబడింది!');
+        } else {
+          alert('మార్పులు విజయవంతంగా క్లౌడ్‌లో సేవ్ చేయబడ్డాయి (WhatsApp పంపబడలేదు).');
+        }
+
+        cancelEditingRecord();
+      } catch (err) {
+        console.error("Update Error:", err);
+        alert("అప్‌డేట్ చేయడం విఫలమైంది: " + err.message);
+      }
+    }
 
     async function triggerReminderByDocId(docId) {
       if (!docId) {
@@ -1113,7 +1145,6 @@
         
         const displayCategory = r.subCategory ? `${r.appType} (${r.subCategory})` : r.appType;
 
-        // అర్జిదారుని పేరు 1st row లో వచ్చేలా అమర్చడం జరిగింది
         const tdRef = document.createElement('td');
         tdRef.className = "px-4 sm:px-5 py-4";
         tdRef.innerHTML = `
@@ -1180,7 +1211,6 @@
           btnGroup.appendChild(btnRemind);
         }
 
-        // Edit Button added here
         const btnEdit = document.createElement('button');
         btnEdit.title = "రికార్డు సవరించు (Edit)";
         btnEdit.className = "text-teal-700 hover:text-teal-900 bg-teal-50 hover:bg-teal-100 p-1.5 rounded-xl transition cursor-pointer";
