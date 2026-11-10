@@ -9,7 +9,7 @@
       navigator.serviceWorker.register('sw.js');
     }
   </script>
-  <title>తహసీల్దార్ వారి కార్యాలయం - పెద్దవడుగూరు మండలం స్వాగతం</title>
+  <title> భూ రికార్డుల శాఖ, ఆంధ్రప్రదేశ్ ప్రభుత్వం</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -147,35 +147,83 @@
     </div>
   </div>
 
-  <!-- Main Header -->
-  <header class="bg-gradient-to-r from-teal-900 via-emerald-800 to-cyan-900 text-white shadow-xl sticky top-0 z-40 border-b border-emerald-500/20">
-    <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-      <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-3.5">
-        <div class="bg-white/10 p-1.5 rounded-2xl backdrop-blur-md shadow-inner border border-white/20 flex items-center justify-center w-12 h-12">
-          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Emblem_of_Andhra_Pradesh.svg/500px-Emblem_of_Andhra_Pradesh.svg.png?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail" alt="AP Emblem" class="w-9 h-9 object-contain">
-        </div>
-        <div>
-          <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-            <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight drop-shadow-sm">తహసీల్దార్ వారి కార్యాలయం</h1>
-            <span class="bg-amber-400/20 text-amber-300 border border-amber-300/30 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">లైవ్ డెస్క్</span>
-          </div>
-          <p class="text-xs sm:text-sm text-teal-100 font-medium">పెద్దవడుగూరు మండలం • రెవెన్యూ విభాగం</p>
+  <!-- BHUNAKSHA Style Top Header -->
+  <header class="bg-white shadow-md sticky top-0 z-40 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 py-2 flex flex-col md:flex-row items-center justify-between gap-3 text-center md:text-left">
+      
+      <!-- Left Leader / Minister Profile -->
+      <div class="flex items-center gap-3">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/N._Chandra_Babu_Naidu.jpg" alt="CM" class="w-11 h-11 rounded-full object-cover border-2 border-emerald-600 shadow-sm">
+        <div class="text-left">
+          <h4 class="text-xs font-black text-slate-800">Sri Nara Chandrababu Naidu</h4>
+          <p class="text-[10px] text-slate-500 font-bold">Hon'ble Chief Minister</p>
         </div>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-2.5 w-full sm:w-auto">
-        <button onclick="openTahsildarModal()" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black text-xs px-4 py-2.5 rounded-2xl shadow-md border border-amber-300 transition active:scale-95 cursor-pointer">
-          <i data-lucide="shield" class="w-4 h-4 text-slate-950"></i>
-          తహసీల్దార్ డాష్‌బోర్డ్
-        </button>
+      <!-- Center Logo & Title -->
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 flex items-center justify-center">
+          <img src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Emblem_of_Andhra_Pradesh.svg/500px-Emblem_of_Andhra_Pradesh.svg.png" alt="AP Emblem" class="w-10 h-10 object-contain">
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-extrabold tracking-wider text-amber-600 uppercase drop-shadow-sm">BHUNAKSHA</h1>
+          <p class="text-[10px] md:text-xs text-slate-600 font-bold uppercase tracking-tight">SURVEY, SETTLEMENTS AND LAND RECORDS • GOVT OF AP</p>
+        </div>
+      </div>
 
-        <div class="inline-flex items-center gap-2 bg-emerald-950/60 px-3.5 py-2.5 rounded-2xl text-xs font-semibold text-emerald-200 border border-emerald-400/30 shadow-sm">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-          లైవ్ స్టేటస్
+      <!-- Right Leader Profile -->
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <h4 class="text-xs font-black text-slate-800">Sri Anagani Satya Prasad</h4>
+          <p class="text-[10px] text-slate-500 font-bold">Hon'ble Minister for Revenue</p>
+        </div>
+        <div class="w-11 h-11 bg-slate-200 rounded-full flex items-center justify-center overflow-hidden border-2 border-emerald-600 shadow-sm">
+          <i data-lucide="user" class="w-6 h-6 text-slate-600"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Green Navigation Bar -->
+    <nav class="bg-emerald-700 text-white px-4 py-2 flex flex-wrap items-center justify-between gap-2 shadow-inner">
+      <div class="flex items-center gap-4 text-xs font-bold">
+        <a href="#" class="flex items-center gap-1 hover:text-amber-300 transition"><i data-lucide="home" class="w-4 h-4"></i> Home</a>
+        <a href="#" class="flex items-center gap-1 hover:text-amber-300 transition"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="openTahsildarModal()" class="inline-flex items-center gap-1.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-xs px-4 py-1.5 rounded-lg shadow transition cursor-pointer">
+          <i data-lucide="shield-check" class="w-4 h-4"></i> Officer Login (తహసీల్దార్ డాష్‌బోర్డ్)
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Banner Section -->
+  <div class="relative bg-emerald-900 text-white py-12 px-4 shadow-lg overflow-hidden">
+    <!-- Background Nature/Land Cover Image -->
+    <div class="absolute inset-0 opacity-30 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=80');"></div>
+    
+    <div class="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="space-y-3 text-center md:text-left">
+        <h2 class="text-3xl md:text-4xl font-black tracking-tight text-amber-300 drop-shadow">BHUNAKSHA</h2>
+        <p class="text-sm md:text-base font-bold text-emerald-100">Survey, Settlements and Land Records</p>
+        <p class="text-xs text-slate-200">Government of Andhra Pradesh • పెద్దవడుగూరు మండలం లైవ్ డెస్క్</p>
+      </div>
+      
+      <!-- Quick Stats Card inside Hero -->
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 p-5 rounded-2xl shadow-xl flex gap-6 text-center">
+        <div>
+          <p class="text-[10px] text-amber-200 font-bold uppercase">మొత్తం అర్జీలు</p>
+          <h3 id="heroTotalCount" class="text-2xl font-black text-white mt-1">0</h3>
+        </div>
+        <div class="border-l border-white/20 pl-6">
+          <p class="text-[10px] text-amber-200 font-bold uppercase">పెండింగ్</p>
+          <h3 id="heroPendingCount" class="text-2xl font-black text-amber-300 mt-1">0</h3>
         </div>
       </div>
     </div>
-  </header>
+  </div>
 
   <main class="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8">
 
@@ -890,7 +938,6 @@
     }
 
     async function getFormData(existingFileInfo = null) {
-      // Dropdown nunchi staffName ni secure ga set chestunnamu
       const dropdownVal = document.getElementById('staffSelectDropdown').value;
       if (dropdownVal) {
         document.getElementById('staffName').value = dropdownVal;
@@ -1061,12 +1108,25 @@
 
         records = loaded;
 
+        // Update Hero Stats
+        updateHeroStats(records);
+
         if (!document.getElementById('tahsildarDashboardSection').classList.contains('hidden')) {
           renderDashboardAndTable();
         }
       }, (error) => {
         console.error("Firestore Error: ", error);
       });
+    }
+
+    function updateHeroStats(data) {
+      const total = data.length;
+      let pending = 0;
+      data.forEach(r => {
+        if (r.status !== 'నివేదిక అందింది') pending++;
+      });
+      document.getElementById('heroTotalCount').innerText = total;
+      document.getElementById('heroPendingCount').innerText = pending;
     }
 
     function setFilterMode(mode) {
@@ -1309,4 +1369,3 @@
   </script>
 </body>
 </html>
-```
