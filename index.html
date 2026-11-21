@@ -9,11 +9,10 @@
       navigator.serviceWorker.register('sw.js');
     }
   </script>
-  <title>తహసీల్దార్ వారి కార్యాలయం - పెద్దవడుగూరు మండలం</title>
+  <title>కార్యాలయ పోర్టల్ - పెద్దవడుగూరు మండలం</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -34,45 +33,13 @@
       backdrop-filter: blur(16px);
     }
 
-    @media (max-width: 768px) {
-      .table-responsive-wrapper {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-    }
-
     .custom-modal-overlay {
-      background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.9)), 
-                  url('https://ananthapuramu.in/images/tadipatri_temple.png');
-      background-size: cover;
-      background-position: center;
-      backdrop-filter: blur(8px);
-      animation: fadeInOverlay 0.35s ease forwards;
-    }
-
-    .custom-modal-card {
-      animation: slideUpModal 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
-    }
-
-    @keyframes fadeInOverlay {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUpModal {
-      from { opacity: 0; transform: translateY(20px) scale(0.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
     }
 
     .gov-banner-border {
       border-bottom: 4px solid #f59e0b;
-    }
-
-    .tab-active {
-      border-bottom: 3px solid #1e3a8a;
-      color: #1e3a8a;
-      background-color: #eff6ff;
     }
   </style>
 </head>
@@ -89,7 +56,7 @@
       <div class="flex items-center gap-4">
         <span id="liveClock" class="font-mono text-emerald-400 font-semibold"></span>
         <span class="hidden sm:inline-flex items-center gap-1.5 text-amber-300 font-bold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> క్లౌడ్ సర్వర్ యాక్టివ్
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span> క్లౌడ్ సర్వర్ యాక్టివ్
         </span>
       </div>
     </div>
@@ -104,29 +71,23 @@
         </div>
         <div>
           <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-            <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-white">తహసీల్దార్ వారి కార్యాలయం</h1>
+            <h1 class="text-lg sm:text-xl md:text-2xl font-black tracking-tight text-white">కార్యాలయ ఆదేశాల పోర్టల్</h1>
             <span class="bg-amber-500 text-slate-950 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-sm">ఇ-ఆఫీస్ పోర్టల్</span>
           </div>
           <p class="text-xs sm:text-sm text-blue-200 font-semibold mt-0.5">పెద్దవడుగూరు మండలం • అనంతపురము జిల్లా</p>
         </div>
       </div>
 
-      <!-- Navigation & Dashboard Toggle -->
       <div class="flex flex-wrap items-center justify-center gap-2.5 w-full md:w-auto">
-        <button onclick="switchMainView('portal')" id="btnNavPortal" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl border border-white/20 transition cursor-pointer">
-          <i data-lucide="file-plus-2" class="w-4 h-4 text-amber-300"></i>
-          ఆదేశాల జారీ డెస్క్
-        </button>
-
-        <button onclick="openTahsildarModal()" id="btnNavDashboard" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-slate-950 font-black text-xs px-4 py-2.5 rounded-xl shadow-lg border border-amber-300 transition active:scale-95 cursor-pointer">
-          <i data-lucide="shield-check" class="w-4 h-4 text-slate-950"></i>
-          తహసీల్దార్ డాష్‌బోర్డ్
+        <button type="button" onclick="openChangePasswordModal()" class="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs px-4 py-2.5 rounded-xl border border-white/20 transition cursor-pointer">
+          <i data-lucide="key-round" class="w-4 h-4 text-amber-300"></i>
+          PIN మార్చు
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Clean Notice Bar (Marquee Removed) -->
+  <!-- Clean Notice Bar -->
   <div class="bg-amber-50 border-b border-amber-200 py-2 px-4 text-xs text-amber-950">
     <div class="max-w-7xl mx-auto flex items-center gap-3">
       <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded text-[10px] shrink-0 uppercase">ముఖ్య గమనిక</span>
@@ -136,53 +97,24 @@
     </div>
   </div>
 
-  <!-- Tahsildar Login Window -->
-  <div id="tahsildarAuthOverlay" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[28px] max-w-md w-full p-7 text-center border-2 border-amber-400 relative z-10">
-      <div class="w-16 h-16 bg-gradient-to-tr from-[#1e3a8a] to-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-        <i data-lucide="shield-check" class="w-8 h-8 text-amber-400"></i>
-      </div>
-      <h2 class="text-xl font-black text-slate-900 mb-1">తహసీల్దార్ వారి లాగిన్</h2>
-      <p class="text-xs text-slate-500 mb-6 font-semibold">పెద్దవడుగూరు మండలం • అధికారిక పర్యవేక్షణ విభాగం</p>
-      
-      <form id="tahsildarAuthForm" class="space-y-4 text-left">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 text-center">రహస్య పిన్ (PIN) నమోదు చేయండి</label>
-          <div class="relative">
-            <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
-            <input type="password" id="tahsildarPinInput" placeholder="••••" maxlength="10" required
-              class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 pl-11 text-center text-xl tracking-widest text-slate-900 font-black outline-none focus:ring-2 focus:ring-blue-800 focus:bg-white transition shadow-sm">
-          </div>
-          <p id="tahsildarAuthError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు పిన్! దయచేసి సరైన పిన్ నమోదు చేయండి.</p>
-        </div>
-        <div class="flex gap-2.5 pt-2">
-          <button type="button" onclick="closeTahsildarModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition cursor-pointer">రద్దు</button>
-          <button type="submit" class="w-1/2 bg-[#1e3a8a] hover:bg-blue-900 text-white font-extrabold text-xs py-3 rounded-2xl shadow-md transition flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer">
-            <i data-lucide="key" class="w-4 h-4 text-amber-400"></i> లాగిన్ అవ్వండి
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <!-- Security Action PIN Modal -->
   <div id="securityActionModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[28px] max-w-sm w-full p-6 text-center border-2 border-rose-500">
-      <div class="w-14 h-14 bg-rose-100 text-rose-700 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-inner">
+    <div class="bg-white rounded-[28px] max-w-sm w-full p-6 text-center border-2 border-blue-800 shadow-2xl">
+      <div class="w-14 h-14 bg-blue-100 text-[#1e3a8a] rounded-2xl flex items-center justify-center mx-auto mb-3">
         <i data-lucide="lock-keyhole" class="w-7 h-7"></i>
       </div>
-      <h3 id="securityActionTitle" class="text-lg font-black text-slate-900 mb-1">అధికార ధ్రువీకరణ</h3>
-      <p id="securityActionDesc" class="text-xs text-slate-500 mb-4 font-semibold">ఈ చర్య కోసం రహస్య పిన్ నమోదు చేయండి</p>
+      <h3 class="text-lg font-black text-slate-900 mb-1">అధికార ధ్రువీకరణ</h3>
+      <p class="text-xs text-slate-500 mb-4 font-semibold">ఫారమ్ లాక్ తెరవడానికి PIN నమోదు చేయండి (Default: 1234)</p>
       
       <form id="securityActionForm" class="space-y-4">
         <div>
           <input type="password" id="securityPinInput" placeholder="••••" maxlength="10" required
-            class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-center text-xl tracking-widest font-black outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white transition">
-          <p id="securityPinError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు పిన్! సరైన పిన్ నమోదు చేయండి.</p>
+            class="w-full bg-slate-50 border border-slate-300 rounded-2xl px-4 py-3 text-center text-xl tracking-widest font-black outline-none focus:ring-2 focus:ring-blue-800 focus:bg-white transition">
+          <p id="securityPinError" class="text-xs text-rose-600 font-bold mt-2 hidden text-center">తప్పుడు PIN! సరైన PIN నమోదు చేయండి.</p>
         </div>
         <div class="flex gap-2">
           <button type="button" onclick="closeSecurityActionModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition cursor-pointer">రద్దు</button>
-          <button type="submit" class="w-1/2 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs py-3 rounded-2xl shadow-md transition cursor-pointer">ధ్రువీకరించు</button>
+          <button type="submit" class="w-1/2 bg-[#1e3a8a] hover:bg-blue-900 text-white font-bold text-xs py-3 rounded-2xl shadow-md transition cursor-pointer">ధ్రువీకరించు</button>
         </div>
       </form>
     </div>
@@ -190,30 +122,23 @@
 
   <!-- Change Password Modal -->
   <div id="changePasswordModal" class="fixed inset-0 z-50 custom-modal-overlay hidden flex items-center justify-center p-4">
-    <div class="custom-modal-card bg-white/95 backdrop-blur-md rounded-[28px] max-w-sm w-full p-6 text-center border-2 border-blue-500">
-      <div class="w-14 h-14 bg-blue-100 text-blue-900 rounded-2xl flex items-center justify-center mx-auto mb-3">
+    <div class="bg-white rounded-[28px] max-w-sm w-full p-6 text-center border-2 border-blue-800 shadow-2xl">
+      <div class="w-14 h-14 bg-blue-100 text-[#1e3a8a] rounded-2xl flex items-center justify-center mx-auto mb-3">
         <i data-lucide="key-round" class="w-7 h-7"></i>
       </div>
-      <h3 class="text-lg font-black text-slate-900 mb-1">పాస్‌వర్డ్ (PIN) మార్పు</h3>
-      <p class="text-xs text-slate-500 mb-4">ఏ పిన్ మార్చాలనుకుంటున్నారో ఎంచుకోండి</p>
+      <h3 class="text-lg font-black text-slate-900 mb-1">PIN మార్పు</h3>
+      <p class="text-xs text-slate-500 mb-4">లాక్ / అన్‌లాక్ PIN మార్చండి</p>
 
       <form id="changePasswordForm" class="space-y-3.5 text-left">
         <div>
-          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">పిన్ రకం</label>
-          <select id="pinTargetType" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold outline-none">
-            <option value="login">లాగిన్ & అన్‌లాక్ పిన్ (Default: 1234)</option>
-            <option value="action">స్టేటస్ & డిలీట్ యాక్షన్ పిన్ (Default: 8688)</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">ప్రస్తుత పిన్ (Old PIN)</label>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">ప్రస్తుత PIN (Old PIN)</label>
           <input type="password" id="oldPinInput" required placeholder="••••" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold outline-none">
         </div>
         <div>
-          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">కొత్త పిన్ (New PIN)</label>
+          <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">కొత్త PIN (New PIN)</label>
           <input type="password" id="newPinInput" required placeholder="••••" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-bold outline-none">
         </div>
-        <p id="changePinError" class="text-xs text-rose-600 font-bold hidden text-center">ప్రస్తుత పిన్ తప్పుగా నమోదైంది!</p>
+        <p id="changePinError" class="text-xs text-rose-600 font-bold hidden text-center">ప్రస్తుత PIN తప్పుగా నమోదైంది!</p>
 
         <div class="flex gap-2 pt-2">
           <button type="button" onclick="closeChangePasswordModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-3 rounded-2xl transition cursor-pointer">రద్దు</button>
@@ -226,38 +151,6 @@
   <!-- Main Content Area -->
   <main class="max-w-7xl w-full mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8 flex-1">
 
-    <!-- Quick Overview Stats Strip -->
-    <div id="portalOverviewCards" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-slate-500">మొత్తం ఆదేశాలు</p>
-          <h4 id="publicTotal" class="text-2xl font-black text-slate-900 mt-0.5">0</h4>
-        </div>
-        <div class="p-3 bg-blue-50 text-[#1e3a8a] rounded-xl"><i data-lucide="folder-kanban" class="w-6 h-6"></i></div>
-      </div>
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-amber-700">పెండింగ్ విచారణలు</p>
-          <h4 id="publicPending" class="text-2xl font-black text-amber-600 mt-0.5">0</h4>
-        </div>
-        <div class="p-3 bg-amber-50 text-amber-600 rounded-xl"><i data-lucide="hourglass" class="w-6 h-6"></i></div>
-      </div>
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-rose-700">గడువు దాటినవి</p>
-          <h4 id="publicOverdue" class="text-2xl font-black text-rose-600 mt-0.5">0</h4>
-        </div>
-        <div class="p-3 bg-rose-50 text-rose-600 rounded-xl"><i data-lucide="alert-triangle" class="w-6 h-6"></i></div>
-      </div>
-      <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-        <div>
-          <p class="text-[11px] font-bold text-emerald-700">పూర్తయిన నివేదికలు</p>
-          <h4 id="publicClosed" class="text-2xl font-black text-emerald-600 mt-0.5">0</h4>
-        </div>
-        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="check-circle" class="w-6 h-6"></i></div>
-      </div>
-    </div>
-
     <!-- Order Issue Form Section -->
     <div id="orderIssueFormContainer" class="glass-card rounded-3xl shadow-lg border border-slate-200 overflow-hidden relative">
       
@@ -268,8 +161,8 @@
             <i data-lucide="lock" class="w-7 h-7"></i>
           </div>
           <h3 class="text-lg font-black text-slate-900">కార్యాలయ ఫారమ్ లాక్ చేయబడింది</h3>
-          <p class="text-xs text-slate-600 font-medium leading-relaxed">అనధికారిక మార్పులను నివారించడానికి ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశాలు జారీ చేయడానికి పిన్ నమోదు చేయండి.</p>
-          <button onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#1e3a8a] to-blue-800 hover:from-blue-900 hover:to-blue-950 text-white font-bold text-xs px-6 py-3.5 rounded-2xl shadow-lg transition active:scale-95 cursor-pointer">
+          <p class="text-xs text-slate-600 font-medium leading-relaxed">అనధికారిక మార్పులను నివారించడానికి ఈ విభాగం లాక్ చేయబడింది. కొత్త ఆదేశాలు జారీ చేయడానికి PIN నమోదు చేయండి.</p>
+          <button type="button" onclick="promptSecurityAction('unlockForm')" class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#1e3a8a] to-blue-800 hover:from-blue-900 hover:to-blue-950 text-white font-bold text-xs px-6 py-3.5 rounded-2xl shadow-lg transition active:scale-95 cursor-pointer">
             <i data-lucide="unlock" class="w-4 h-4 text-amber-400"></i> లాక్ తెరవండి (Unlock)
           </button>
         </div>
@@ -282,26 +175,19 @@
             <i data-lucide="send" class="w-5 h-5 text-amber-400"></i>
           </div>
           <div>
-            <h2 id="formTitleHeading" class="text-base sm:text-lg font-black text-slate-900">సిబ్బందికి ఆదేశాల జారీ & విచారణ కేటాయింపు</h2>
+            <h2 class="text-base sm:text-lg font-black text-slate-900">సిబ్బందికి ఆదేశాల జారీ & విచారణ కేటాయింపు</h2>
             <p class="text-xs text-slate-500 font-medium">అర్జీ వివరాలను నమోదు చేసి సిబ్బందికి ఆదేశాలు జారీ చేయండి</p>
           </div>
         </div>
-        <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
-          <button id="cancelEditBtn" onclick="cancelEditingRecord()" class="hidden text-xs font-bold text-rose-700 bg-rose-100 hover:bg-rose-200 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
-            <i data-lucide="x" class="w-3.5 h-3.5"></i> ఎడిట్ రద్దు చేయి
-          </button>
-          <button id="lockFormBtn" onclick="lockDispatchForm()" class="hidden text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
+        <div class="flex items-center gap-2">
+          <button type="button" id="lockFormBtn" onclick="lockDispatchForm()" class="hidden text-xs font-bold text-slate-700 bg-slate-200 hover:bg-slate-300 px-3.5 py-2 rounded-xl transition flex items-center gap-1 cursor-pointer">
             <i data-lucide="lock" class="w-3.5 h-3.5"></i> తిరిగి లాక్ చేయి
           </button>
-          <span class="text-[11px] font-bold text-[#1e3a8a] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-200 flex items-center gap-1.5">
-            <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600"></i> ఆన్‌లైన్ నోటీస్ డెస్క్
-          </span>
         </div>
       </div>
 
       <form id="dispatchForm" class="p-5 sm:p-6 md:p-8 space-y-6">
         <fieldset id="formFieldSet" disabled class="space-y-6">
-          <input type="hidden" id="editingDocId" value="">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
             <!-- Revenue Category -->
@@ -323,7 +209,7 @@
               </div>
             </div>
 
-            <!-- Sub Category (Completed) -->
+            <!-- Sub Category -->
             <div id="subCategoryContainer" class="hidden">
               <label class="block text-xs font-bold text-[#1e3a8a] uppercase tracking-wider mb-2">సబ్-కేటగిరీ (Sub Category)</label>
               <div class="relative">
@@ -342,9 +228,124 @@
   </main>
 
   <script>
+    const PIN_STORAGE_KEY = 'portal_unlock_pin';
+    let pendingAction = null;
+
+    function getCurrentPin() {
+      return localStorage.getItem(PIN_STORAGE_KEY) || '1234';
+    }
+
+    function updateClock() {
+      const el = document.getElementById('liveClock');
+      if (el) {
+        const now = new Date();
+        el.textContent = now.toLocaleTimeString('en-IN', { hour12: true });
+      }
+    }
+
+    function promptSecurityAction(actionType) {
+      pendingAction = actionType;
+      const modal = document.getElementById('securityActionModal');
+      const input = document.getElementById('securityPinInput');
+      const err = document.getElementById('securityPinError');
+      if (err) err.classList.add('hidden');
+      if (input) {
+        input.value = '';
+        modal.classList.remove('hidden');
+        setTimeout(() => input.focus(), 50);
+      }
+    }
+
+    function closeSecurityActionModal() {
+      pendingAction = null;
+      document.getElementById('securityActionModal').classList.add('hidden');
+    }
+
+    function unlockDispatchForm() {
+      document.getElementById('formLockOverlay').classList.add('hidden');
+      document.getElementById('formFieldSet').disabled = false;
+      document.getElementById('lockFormBtn').classList.remove('hidden');
+    }
+
+    function lockDispatchForm() {
+      document.getElementById('formLockOverlay').classList.remove('hidden');
+      document.getElementById('formFieldSet').disabled = true;
+      document.getElementById('lockFormBtn').classList.add('hidden');
+    }
+
+    document.getElementById('securityActionForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const enteredPin = document.getElementById('securityPinInput').value.trim();
+      const errorEl = document.getElementById('securityPinError');
+
+      if (enteredPin === getCurrentPin()) {
+        errorEl.classList.add('hidden');
+        const actionToRun = pendingAction;
+        closeSecurityActionModal();
+        if (actionToRun === 'unlockForm') {
+          unlockDispatchForm();
+        }
+      } else {
+        errorEl.classList.remove('hidden');
+      }
+    });
+
+    function openChangePasswordModal() {
+      document.getElementById('oldPinInput').value = '';
+      document.getElementById('newPinInput').value = '';
+      document.getElementById('changePinError').classList.add('hidden');
+      document.getElementById('changePasswordModal').classList.remove('hidden');
+    }
+
+    function closeChangePasswordModal() {
+      document.getElementById('changePasswordModal').classList.add('hidden');
+    }
+
+    document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const oldPin = document.getElementById('oldPinInput').value.trim();
+      const newPin = document.getElementById('newPinInput').value.trim();
+      const errEl = document.getElementById('changePinError');
+
+      if (oldPin === getCurrentPin() && newPin.length > 0) {
+        localStorage.setItem(PIN_STORAGE_KEY, newPin);
+        closeChangePasswordModal();
+        alert('PIN విజయవంతంగా మార్చబడింది!');
+      } else {
+        errEl.classList.remove('hidden');
+      }
+    });
+
+    function updateSubCategories() {
+      const appType = document.getElementById('appType').value;
+      const container = document.getElementById('subCategoryContainer');
+      const select = document.getElementById('subCategory');
+      const optionsMap = {
+        'ROR': ['మ్యుటేషన్ (Mutation)', '1-B / ROR కాపీ', 'వారసత్వం'],
+        'PGRS': ['భూమి వివాదం', 'రికార్డుల సవరణ', 'ఇతర ఫిర్యాదు'],
+        'Survey': ['సబ్-డివిజన్ సర్వే', 'హద్దుల నిర్ధారణ'],
+        'మండలo అప్లికేషన్': ['ధ్రువీకరణ పత్రం', 'సాధారణ అభ్యర్థన']
+      };
+
+      select.innerHTML = '<option value="">-- సబ్-కేటగిరీ ఎంచుకోండి --</option>';
+      if (optionsMap[appType]) {
+        optionsMap[appType].forEach(item => {
+          const opt = document.createElement('option');
+          opt.value = item;
+          opt.textContent = item;
+          select.appendChild(opt);
+        });
+        container.classList.remove('hidden');
+      } else {
+        container.classList.add('hidden');
+      }
+    }
+
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
     }
+    updateClock();
+    setInterval(updateClock, 1000);
   </script>
 </body>
 </html>
