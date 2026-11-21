@@ -126,13 +126,13 @@
     </div>
   </header>
 
-  <!-- Quick Marquee / Notice Bar -->
+  <!-- Clean Notice Bar (Marquee Removed) -->
   <div class="bg-amber-50 border-b border-amber-200 py-2 px-4 text-xs text-amber-950">
-    <div class="max-w-7xl mx-auto flex items-center gap-3 overflow-hidden">
+    <div class="max-w-7xl mx-auto flex items-center gap-3">
       <span class="bg-amber-600 text-white font-black px-2.5 py-0.5 rounded text-[10px] shrink-0 uppercase">ముఖ్య గమనిక</span>
-      <marquee behavior="scroll" direction="left" class="font-semibold">
+      <p class="font-semibold leading-snug">
         పెద్దవడుగూరు మండల రెవెన్యూ సిబ్బంది (VRO / RI / Surveyors) అందరూ తమకు కేటాయించిన PGRS, ROR మరియు సర్వే అర్జీలను నిర్ణీత గడువులోగా క్షేత్రస్థాయి విచారణ పూర్తి చేసి నివేదికలు సమర్పించవలెను.
-      </marquee>
+      </p>
     </div>
   </div>
 
@@ -226,7 +226,7 @@
   <!-- Main Content Area -->
   <main class="max-w-7xl w-full mx-auto px-3 sm:px-4 py-6 sm:py-8 space-y-6 sm:space-y-8 flex-1">
 
-    <!-- Quick Overview Stats Strip (Always Visible on Portal) -->
+    <!-- Quick Overview Stats Strip -->
     <div id="portalOverviewCards" class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
       <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
         <div>
@@ -283,7 +283,7 @@
           </div>
           <div>
             <h2 id="formTitleHeading" class="text-base sm:text-lg font-black text-slate-900">సిబ్బందికి ఆదేశాల జారీ & విచారణ కేటాయింపు</h2>
-            <p class="text-xs text-slate-500 font-medium">అర్జీ వివరాలను నమోదు చేసి నేరుగా WhatsApp ద్వారా సిబ్బందికి పంపండి</p>
+            <p class="text-xs text-slate-500 font-medium">అర్జీ వివరాలను నమోదు చేసి సిబ్బందికి ఆదేశాలు జారీ చేయండి</p>
           </div>
         </div>
         <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
@@ -323,8 +323,28 @@
               </div>
             </div>
 
-            <!-- Sub Category (Dynamic) -->
+            <!-- Sub Category (Completed) -->
             <div id="subCategoryContainer" class="hidden">
               <label class="block text-xs font-bold text-[#1e3a8a] uppercase tracking-wider mb-2">సబ్-కేటగిరీ (Sub Category)</label>
               <div class="relative">
-                <select id="subCategory" class="w-full bg-blue-50/60 border border-blue-300 rounded-2xl 
+                <select id="subCategory" class="w-full bg-blue-50/60 border border-blue-300 rounded-2xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-800 focus:bg-white outline-none transition appearance-none font-semibold shadow-sm">
+                  <option value="">-- సబ్-కేటగిరీ ఎంచుకోండి --</option>
+                </select>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-blue-500 absolute right-3.5 top-4 pointer-events-none"></i>
+              </div>
+            </div>
+
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+  </main>
+
+  <script>
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>
